@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ePaper Controls</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .banner {
+            width: 100%;
+            background-color: #4CAF50; /* Green color for the banner */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-controls {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .main-controls button {
+            min-width: 70px;
+            padding: 10px 10px;
+            margin: 10px 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .main-controls button:hover {
+            background-color: #45a049;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 34px;
+            margin-top: 12px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4CAF50;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        h2 {
+            text-decoration: underline;
+            margin-top: 20px;
+            font-size: 1.8rem;
+            color: #222;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        input[type="file"] {
+            flex: 1;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 10px 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+        }
+
+        .image-item {
+            position: relative;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+            width: 100%;
+        }
+
+        .image-item:hover {
+            transform: scale(1.05);
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .delete-button {
+            position: absolute;
+            background-color: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            border-radius: 20%;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            button, input[type="file"] {
+                font-size: 0.9rem;
+            }
+
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                padding: 10px;
+            }
+            
+            .thumbnail {
+                max-width: 100%; /* Prevents images from exceeding the container's width */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        ePaper Frame Controls
+    </div>
+    
+    <h2>Main Controls</h2>
+    
+    <div class="main-controls">
+        <button onclick="startDisplay()">Start</button>
+        <button onclick="resetDisplay()">Reset</button>
+<!--
+        <h3>Flip Orientation:</h3>
+        <label class="toggle-switch">
+            <input type="checkbox" id="flipToggle" onchange="toggleOrientation()">
+            <span class="slider"></span>
+        </label>
+-->
+    </div>
+    
+    <h2>Upload Image</h2>
+    
+    <form id="uploadForm" action="/" method="post" enctype="multipart/form-data">
+        <input type="file" id="fileInput" name="file" accept="image/*" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2 style="text-align:center;">Existing Images</h2>
+    
+    <div class="image-grid">
+        {% for image in images %}
+            <div class="image-item">
+                <form action="/delete-image/{{ image }}" method="post" style="display:inline;">
+                    <button class="delete-button">X</button>
+                </form>
+                <img src="/images/{{ image }}" class="thumbnail" alt="{{ image }}" onclick="confirmSelection('{{ image }}')">
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        const allowedFileTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+
+        document.getElementById('uploadForm').addEvntListener('submit', function(event) {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (file && !allowedFileTypes.includes(file.type)) {
+                alert('Invalid file type. Please upload an image of type: PNG, JPG, JPEG, or GIF');
+                event.preventDefault();
+            }
+        });
+        
+        function confirmSelection(image) {
+            const confirmation = confirm("Are you sure you want to display the selected image?");
+            if (confirmation) {
+                const timestamp = new Date().getTime();
+                fetch(`/select-image?image=${encodeURIComponent(image)}&t=${timestamp}`);
+            }
+        }
+        
+        function startDisplay() {
+            const imageGrid = document.querySelector('.image-grid');
+            const images = imageGrid.querySelectorAll('img');
+            
+            if (images.length === 0) {
+                alert("No images available. Please upload an image before starting the display.");
+                return;
+            }
+            
+            const confirmation = confirm("Start Display?");
+            if (confirmation) {
+                fetch('/start-display');
+            }
+        }
+
+        function resetDisplay() {
+            const confirmation = confirm("Reset Display?");
+            if (confirmation) {
+                fetch('/reset-display');
+            }
+        }
+
+        function flipOrientation() {
+            fetch('/flip-orientation');
+        }
+    </script>
+</body>
+</html>

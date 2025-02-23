@@ -6,9 +6,7 @@ from image_converter import ImageConverter
 from  display import Display
 script_dir = os.path.dirname(os.path.abspath(__file__))
 upload_path = lib_path = os.path.join(script_dir, 'pic')
-bmp_path = os.path.join(script_dir, 'bmp')
 os.makedirs(upload_path, exist_ok=True)
-os.makedirs(bmp_path, exist_ok=True)
 
 display = Display()
 app = Flask(__name__)
@@ -59,7 +57,6 @@ def flip_orientation():
 @app.route('/delete-image/<filename>', methods=['POST'])
 def delete_image(filename):
     os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    os.remove(os.path.join(bmp_path, os.path.splitext(filename)[0] + ".bmp"))
     return redirect('/')
     
 @app.route('/images/<filename>')

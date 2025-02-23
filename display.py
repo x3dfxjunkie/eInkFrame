@@ -72,7 +72,7 @@ class Display:
             current_time = time.time()
             elapsed_time = current_time - self.last_display_time
             
-            if elapsed_time >= 180:
+            if elapsed_time >= 360:
                 images = self.fetch_image_files()
                 random_image = self.select_random_image(images)
                 self.last_selected_image = random_image

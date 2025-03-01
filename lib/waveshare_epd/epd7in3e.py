@@ -205,7 +205,7 @@ class EPD:
             image_temp = image_temp.convert('RGB')
 
         contrast = ImageEnhance.Contrast(image_temp)
-        image_temp = contrast.enhance(2)
+        image_temp = contrast.enhance(1.5)
     
         color = ImageEnhance.Color(image_temp)
         image_temp = color.enhance(2)

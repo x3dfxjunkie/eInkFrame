@@ -32,7 +32,7 @@ import logging
 from . import epdconfig
 
 import PIL
-from PIL import Image
+from PIL import Image, ImageEnhance
 import io
 
 # Display resolution
@@ -180,7 +180,15 @@ class EPD:
     def getbuffer(self, image):
         # Create a pallette with the 7 colors supported by the panel
         pal_image = Image.new("P", (1,1))
-        pal_image.putpalette( (0,0,0,  255,255,255,  255,255,0,  255,0,0,  0,0,0,  0,0,255,  0,255,0) + (0,0,0)*249)
+        pal_image.putpalette((
+            0,0,0,  
+            255,255,255,  
+            255,255,0,  
+            255,0,0,  
+            0,0,0,  
+            0,0,255,  
+            0,255,0
+        ) + (0,0,0)*249)
         # pal_image.putpalette( (0,0,0,  255,255,255,  0,255,0,   0,0,255,  255,0,0,  255,255,0, 255,128,0) + (0,0,0)*249)
 
         # Check if we need to rotate the image
@@ -190,10 +198,25 @@ class EPD:
         elif(imwidth == self.height and imheight == self.width):
             image_temp = image.rotate(90, expand=True)
         else:
-            logger.warning("Invalid image dimensions: %d x %d, expected %d x %d" % (imwidth, imheight, self.width, self.height))
+            logger.warning("Invalid image dimensions: %d x %d, expected %d x %d" % 
+                           (imwidth, imheight, self.width, self.height))
+
+        if image_temp.mode != 'RGB':
+            image_temp = image_temp.convert('RGB')
+
+        contrast = ImageEnhance.Contrast(image_temp)
+        image_temp = contrast.enhance(1.5)
+    
+        color = ImageEnhance.Color(image_temp)
+        image_temp = color.enhance(1.5)
 
         # Convert the soruce image to the 7 colors, dithering if needed
-        image_7color = image_temp.convert("RGB").quantize(palette=pal_image, dither=Image.Dither.FLOYDSTEINBERG)
+        image_7color = image_temp.quantize(
+            palette=pal_image, 
+            dither=Image.Dither.FLOYDSTEINBERG, 
+            colors=7
+        )
+
         buf_7color = bytearray(image_7color.tobytes('raw'))
 
         # PIL does not support 4 bit color, so pack the 4 bits of color

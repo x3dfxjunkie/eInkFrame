@@ -185,10 +185,10 @@ class EPD:
             255,255,255,  
             255,255,0,  
             255,0,0,  
-            #0,0,0,  
+            0,0,0,  
             0,0,255,  
             0,255,0
-        ) + (0,0,0)*250)
+        ) + (0,0,0)*249)
         # pal_image.putpalette( (0,0,0,  255,255,255,  0,255,0,   0,0,255,  255,0,0,  255,255,0, 255,128,0) + (0,0,0)*249)
 
         # Check if we need to rotate the image
@@ -214,7 +214,7 @@ class EPD:
         image_7color = image_temp.quantize(
             palette=pal_image, 
             dither=Image.Dither.FLOYDSTEINBERG, 
-            colors=6
+            colors=7
         )
 
         buf_7color = bytearray(image_7color.tobytes('raw'))

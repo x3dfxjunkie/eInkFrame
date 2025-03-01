@@ -207,8 +207,8 @@ class EPD:
         color = ImageEnhance.Color(image_temp)
         image_temp = color.enhance(1.5)
 
-        contrast = ImageEnhance.Contrast(image_temp)
-        image_temp = contrast.enhance(1.5)
+        # contrast = ImageEnhance.Contrast(image_temp)
+        # image_temp = contrast.enhance(1.5)
 
         # Convert the soruce image to the 7 colors, dithering if needed
         image_7color = image_temp.quantize(

@@ -205,16 +205,15 @@ class EPD:
             image_temp = image_temp.convert('RGB')
 
         contrast = ImageEnhance.Contrast(image_temp)
-        image_temp = contrast.enhance(1.5)
+        image_temp = contrast.enhance(2)
     
         color = ImageEnhance.Color(image_temp)
-        image_temp = color.enhance(1.5)
+        image_temp = color.enhance(2)
 
         # Convert the soruce image to the 7 colors, dithering if needed
         image_7color = image_temp.quantize(
             palette=pal_image, 
-            dither=Image.Dither.FLOYDSTEINBERG, 
-            colors=7
+            dither=Image.Dither.FLOYDSTEINBERG,
         )
 
         buf_7color = bytearray(image_7color.tobytes('raw'))

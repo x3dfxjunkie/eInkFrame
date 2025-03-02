@@ -33,7 +33,7 @@ def index():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             imageConverter = ImageConverter()
             imageConverter.process_image(filename)
-        return redirect('/')
+        return redirect(url_for('index'))
 
     # List existing images
     images = [img for img in os.listdir(app.config['UPLOAD_FOLDER'])]

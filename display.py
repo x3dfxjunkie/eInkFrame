@@ -56,6 +56,7 @@ class Display:
                 pic = pic.rotate(self.rotation)
                 self.epd.display(self.epd.getbuffer(pic))
                 self.last_display_time = time.time()
+                self.epd.sleep()
         
         else:
             images = self.fetch_image_files()
@@ -67,6 +68,7 @@ class Display:
                 pic = pic.rotate(self.rotation)
                 self.epd.display(self.epd.getbuffer(pic))
                 self.last_display_time = time.time()
+                self.epd.sleep()
 
         while True:
             current_time = time.time()
@@ -82,6 +84,7 @@ class Display:
                     pic = pic.rotate(self.rotation)
                     self.epd.display(self.epd.getbuffer(pic))
                     self.last_display_time = time.time()
+                    self.epd.sleep()
     
     def display_qrcode(self, ip_address):
         url = f"http://{ip_address}:5000"

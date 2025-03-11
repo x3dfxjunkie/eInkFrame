@@ -29,7 +29,7 @@ class ImageConverter:
             # image_temp = color.enhance(1.5)
 
             contrast = ImageEnhance.Contrast(img)
-            img = contrast.enhance(1.5)
+            img = contrast.enhance(1.3)
 
             # Original dimensions
             orig_width, orig_height = img.size

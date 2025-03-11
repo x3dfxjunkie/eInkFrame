@@ -201,19 +201,10 @@ class EPD:
             logger.warning("Invalid image dimensions: %d x %d, expected %d x %d" % 
                            (imwidth, imheight, self.width, self.height))
 
-        if image_temp.mode != 'RGB':
-            image_temp = image_temp.convert('RGB')
-
-        color = ImageEnhance.Color(image_temp)
-        image_temp = color.enhance(1.7)
-
-        contrast = ImageEnhance.Contrast(image_temp)
-        image_temp = contrast.enhance(1.7)
-
         # Convert the soruce image to the 7 colors, dithering if needed
-        image_7color = image_temp.quantize(
+        image_7color = image_temp.convert('RGB').quantize(
             palette=pal_image, 
-            dither=Image.Dither.FLOYDSTEINBERG,
+            # dither=Image.Dither.FLOYDSTEINBERG,
         )
 
         buf_7color = bytearray(image_7color.tobytes('raw'))

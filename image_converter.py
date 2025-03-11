@@ -25,8 +25,8 @@ class ImageConverter:
         with Image.open(img_path) as img:
             img = ImageOps.exif_transpose(img)
             
-            # color = ImageEnhance.Color(image_temp)
-            # image_temp = color.enhance(1.5)
+            color = ImageEnhance.Color(img)
+            img = color.enhance(1.3)
 
             contrast = ImageEnhance.Contrast(img)
             img = contrast.enhance(1.3)

@@ -26,10 +26,10 @@ class ImageConverter:
             img = ImageOps.exif_transpose(img)
             
             color = ImageEnhance.Color(img)
-            img = color.enhance(2)
+            img = color.enhance(1.75)
 
             contrast = ImageEnhance.Contrast(img)
-            img = contrast.enhance(2)
+            img = contrast.enhance(1.75)
 
             # Original dimensions
             orig_width, orig_height = img.size

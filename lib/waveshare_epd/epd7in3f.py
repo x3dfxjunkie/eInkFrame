@@ -32,7 +32,7 @@ import logging
 from . import epdconfig
 
 import PIL
-from PIL import Image
+from PIL import Image, ImageEnhance
 import io
 
 # Display resolution
@@ -212,7 +212,21 @@ class EPD:
             logger.warning("Invalid image dimensions: %d x %d, expected %d x %d" % (imwidth, imheight, self.width, self.height))
 
         # Convert the soruce image to the 7 colors, dithering if needed
-        image_7color = image_temp.convert("RGB").quantize(palette=pal_image)
+        if image_temp.mode != 'RGB':
+            image_temp = image_temp.convert('RGB')
+
+        color = ImageEnhance.Color(image_temp)
+        image_temp = color.enhance(1.5)
+
+        contrast = ImageEnhance.Contrast(image_temp)
+        image_temp = contrast.enhance(1.5)
+
+        # Convert the soruce image to the 7 colors, dithering if needed
+        image_7color = image_temp.quantize(
+            palette=pal_image, 
+            dither=Image.Dither.FLOYDSTEINBERG,
+        )
+
         buf_7color = bytearray(image_7color.tobytes('raw'))
 
         # PIL does not support 4 bit color, so pack the 4 bits of color

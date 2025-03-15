@@ -1,23 +1,28 @@
 import os
 import sys
 from PIL import Image, ImageEnhance, ImageOps
-import numpy as np
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 pic_path = os.path.join(script_dir, 'pic')
 
 class ImageConverter:
 
-    def __init__(self):
-        self.input_directory = pic_path
+    def __init__(self, source_dir, output_dir):
+        self.source_dir = source_dir
+        self.output_dir = output_dir
 
 
-    def process_image(self, file_name):
-        img_path = os.path.join(self.input_directory, file_name)
-        self.resize_image(img_path)
+    def process_images(self, file_name):
+        valid_extensions = ('.jpg', '.jpeg', '.png')
+
+        for img in os.listdir(self.source_dir):
+            img_path = os.path.join(self.source_dir, file_name)
+            if os.path.isfile(img_path) and img.lower().endswith(valid_extensions):
+                self.resize_image(img_path, file_name)
             
 
     # Resize the image given by input_path and overwrite to the same path
-    def resize_image(self, img_path):
+    def resize_image(self, img_path, file_name):
         # Screen target size dims
         target_width = 800
         target_height = 480
@@ -59,4 +64,4 @@ class ImageConverter:
             cropped_img = resized_img.crop((left, top, right, bottom))
 
             # Save the final image
-            cropped_img.save(img_path)
+            cropped_img.save(os.path.join(self.output_dir, file_name))

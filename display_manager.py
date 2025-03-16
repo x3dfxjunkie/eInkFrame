@@ -7,21 +7,21 @@ from lib.waveshare_epd import epd7in3f
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 LIB_PATH = os.path.join(SCRIPT_DIR, 'lib')
-PIC_PATH = os.path.join(SCRIPT_DIR, 'pic')
 sys.path.append(LIB_PATH)
 
 class DisplayManager:
 
-    def __init__(self):
+    def __init__(self, image_folder):
         self.last_display_time = time.time()
         self.last_selected_image = None
+        self.image_folder = image_folder
         self.rotation = 0
         self.epd = epd7in3f.EPD()
         self.epd.init()
 
 
     def fetch_image_files(self):
-        return [f for f in os.listdir(PIC_PATH)]
+        return [f for f in os.listdir(self.image_folder)]
 
 
     def select_random_image(self, images):
@@ -48,7 +48,7 @@ class DisplayManager:
         self.last_selected_image = random_image
             
         # Open and display the image
-        with Image.open(os.path.join(PIC_PATH, random_image)) as pic:
+        with Image.open(os.path.join(self.image_folder, random_image)) as pic:
             pic = pic.rotate(self.rotation)
             self.epd.display(self.epd.getbuffer(pic))
             self.last_display_time = time.time()

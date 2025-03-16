@@ -17,7 +17,9 @@ class ImageConverter:
 
         for img in os.listdir(self.source_dir):
             img_path = os.path.join(self.source_dir, img)
+            print(f"Processing file: {img_path}")
             if os.path.isfile(img_path) and img.lower().endswith(valid_extensions):
+                print(f"Resizing image: {img_path}")
                 self.resize_image(img_path, img)
             
 

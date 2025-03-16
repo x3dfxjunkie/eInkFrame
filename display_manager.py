@@ -3,7 +3,7 @@ import sys
 import time
 import random
 from PIL import Image
-from lib.waveshare_epd import epd7in3f
+from lib.waveshare_epd import epd7in3e
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 LIB_PATH = os.path.join(SCRIPT_DIR, 'lib')
@@ -16,7 +16,7 @@ class DisplayManager:
         self.last_selected_image = None
         self.image_folder = image_folder
         self.rotation = 0
-        self.epd = epd7in3f.EPD()
+        self.epd = epd7in3e.EPD()
         self.epd.init()
 
 

@@ -55,12 +55,12 @@ def main():
                 # Re-run image processing after the SD card is re-inserted.
                 image_converter = ImageConverter(source_dir=sd_path, output_dir=PIC_PATH)
                 try:
+                    print("Processing images, please wait...")
                     image_converter.process_all_images()
                 except Exception as e:
                     print(f"Error during image processing: {e}")
 
-            display_manager.show_next_image()
-            time.sleep(display_manager.display_interval)
+            display_manager.display_image()
     except KeyboardInterrupt:
         print("Exiting gracefully.")
 

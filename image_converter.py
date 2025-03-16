@@ -1,6 +1,7 @@
 import os
 import sys
 from PIL import Image, ImageEnhance, ImageOps
+import time
 
 
 class ImageConverter:
@@ -32,6 +33,7 @@ class ImageConverter:
         target_height = 480
 
         with Image.open(img_path) as img:
+            print("Beginning image processing at time: ", time.time())
             img = ImageOps.exif_transpose(img)
             
             print("Enchancing image...")
@@ -73,3 +75,5 @@ class ImageConverter:
             print("Saving image...")
             # Save the final image
             cropped_img.save(os.path.join(self.output_dir, file_name))
+
+            print("Image processing completed at time: ", time.time())

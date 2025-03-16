@@ -16,6 +16,7 @@ class DisplayManager:
         self.last_selected_image = None
         self.image_folder = image_folder
         self.rotation = 0
+        self.refresh_time = 180
         self.epd = epd7in3f.EPD()
         self.epd.init()
 
@@ -58,7 +59,7 @@ class DisplayManager:
             current_time = time.time()
             elapsed_time = current_time - self.last_display_time
             
-            if elapsed_time >= 180:
+            if elapsed_time >= self.refresh_time:
                 images = self.fetch_image_files()
                 random_image = self.select_random_image(images)
                 self.last_selected_image = random_image

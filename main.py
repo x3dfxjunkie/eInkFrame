@@ -38,9 +38,11 @@ def main():
     # Create instances of the classes using the SD card as the source.
     image_converter = ImageConverter(source_dir=sd_path, output_dir=PIC_PATH)
     display_manager = DisplayManager(image_folder=PIC_PATH)
+    print("classes created")
 
     # Process images from the SD card.
     try:
+        print("Processing images, please wait...")
         image_converter.process_all_images()
     except Exception as e:
         print(f"Error during image processing: {e}")

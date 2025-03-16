@@ -12,13 +12,13 @@ class ImageConverter:
         self.output_dir = output_dir
 
 
-    def process_images(self, file_name):
+    def process_images(self):
         valid_extensions = ('.jpg', '.jpeg', '.png')
 
         for img in os.listdir(self.source_dir):
-            img_path = os.path.join(self.source_dir, file_name)
+            img_path = os.path.join(self.source_dir, img)
             if os.path.isfile(img_path) and img.lower().endswith(valid_extensions):
-                self.resize_image(img_path, file_name)
+                self.resize_image(img_path, img)
             
 
     # Resize the image given by input_path and overwrite to the same path

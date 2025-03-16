@@ -30,7 +30,7 @@ class DisplayManager:
             return images[0]
         
         # Select a random image unless it was previously selected
-        random_image = random.choice([img for img in images if img != self.last_selected_image and img != "qrcode.bmp"])
+        random_image = random.choice([img for img in images if img != self.last_selected_image])
         
         return random_image
 
@@ -52,7 +52,7 @@ class DisplayManager:
             pic = pic.rotate(self.rotation)
             self.epd.display(self.epd.getbuffer(pic))
             self.last_display_time = time.time()
-            self.epd.sleep()
+            #self.epd.sleep()
 
         while True:
             current_time = time.time()
@@ -68,36 +68,4 @@ class DisplayManager:
                     pic = pic.rotate(self.rotation)
                     self.epd.display(self.epd.getbuffer(pic))
                     self.last_display_time = time.time()
-                    self.epd.sleep()
-    
-    # def display_qrcode(self, ip_address):
-    #     url = f"http://{ip_address}:5000"
-        
-    #     # Generate QR code
-    #     qr = qrcode.QRCode(
-    #         version=1,
-    #         error_correction=qrcode.constants.ERROR_CORRECT_L,
-    #         box_size=10,
-    #         border=4,
-    #     )
-    #     qr.add_data(url)
-    #     qr.make(fit=True)
-
-    #     # Create QR Code BMP
-    #     qr_img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
-    #     qr_img = qr_img.resize((300, 300))
-        
-    #     full_img = Image.new("RGB", (800, 480), color="white")
-
-    #     qr_x = (full_img.width - qr_img.width) // 2
-    #     qr_y = (full_img.height - qr_img.height) // 2
-    #     full_img.paste(qr_img, (qr_x, qr_y))
-        
-    #     full_img.save(os.path.join(PIC_PATH, "qrcode.bmp"), format = "BMP")
-    #     with Image.open(os.path.join(PIC_PATH, "qrcode.bmp")) as bmp_qr:
-    #         bmp_qr = bmp_qr.rotate(self.rotation)
-    #         self.epd.display(self.epd.getbuffer(bmp_qr))
-
-
-
-
+                    #self.epd.sleep()

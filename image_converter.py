@@ -2,8 +2,6 @@ import os
 import sys
 from PIL import Image, ImageEnhance, ImageOps
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-pic_path = os.path.join(script_dir, 'pic')
 
 class ImageConverter:
 
@@ -28,7 +26,6 @@ class ImageConverter:
                 self.resize_image(img_path, img)
             
 
-    # Resize the image given by input_path and overwrite to the same path
     def resize_image(self, img_path, file_name):
         # Screen target size dims
         target_width = 800

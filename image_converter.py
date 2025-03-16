@@ -11,15 +11,15 @@ class ImageConverter:
 
 
     def process_images(self):
-        valid_extensions = ('.jpg', '.jpeg', '.png')
-        print(f"Processing images from {self.source_dir} to {self.output_dir}")
+        valid_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.gif', '.tiff')
+
         for img in os.listdir(self.source_dir):
-            print(f"Found file: {img}")
+
             if img.startswith('.'):
                 continue
-
+            
+            print(f"Found file: {img}")
             img_path = os.path.join(self.source_dir, img)
-            print(f"Processing file: {img_path}")
 
             if os.path.isfile(img_path) and img.lower().endswith(valid_extensions):
                 print(f"Resizing image: {img_path}")
@@ -34,11 +34,12 @@ class ImageConverter:
         with Image.open(img_path) as img:
             img = ImageOps.exif_transpose(img)
             
+            print("Enchancing image...")
             color = ImageEnhance.Color(img)
-            img = color.enhance(1.75)
+            img = color.enhance(1.5)
 
             contrast = ImageEnhance.Contrast(img)
-            img = contrast.enhance(1.75)
+            img = contrast.enhance(1.5)
 
             # Original dimensions
             orig_width, orig_height = img.size
@@ -55,6 +56,7 @@ class ImageConverter:
                 new_width = target_width
                 new_height = int(new_width / original_aspect_ratio)
 
+            print("Resizing image...")
             # Resize the image while maintaining aspect ratio
             resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
 
@@ -64,8 +66,10 @@ class ImageConverter:
             right = left + target_width
             bottom = top + target_height
 
+            print("Cropping image...")
             # Crop the image
             cropped_img = resized_img.crop((left, top, right, bottom))
-
+            
+            print("Saving image...")
             # Save the final image
             cropped_img.save(os.path.join(self.output_dir, file_name))

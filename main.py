@@ -43,7 +43,7 @@ def main():
     # Process images from the SD card.
     try:
         print("Processing images, please wait...")
-        image_converter.process_all_images()
+        image_converter.process_images()
     except Exception as e:
         print(f"Error during image processing: {e}")
 
@@ -58,7 +58,7 @@ def main():
                 image_converter = ImageConverter(source_dir=sd_path, output_dir=PIC_PATH)
                 try:
                     print("Processing images, please wait...")
-                    image_converter.process_all_images()
+                    image_converter.process_images()
                 except Exception as e:
                     print(f"Error during image processing: {e}")
 

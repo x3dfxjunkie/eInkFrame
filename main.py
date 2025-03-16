@@ -28,9 +28,9 @@ def wait_for_sd_card(mount_base="/media/enriquepi"):
 
 
 def main():
-    if not os.path.exists(PIC_PATH):
-        os.makedirs(PIC_PATH)
-    shutil.rmtree(PIC_PATH)
+    if os.path.exists(PIC_PATH):
+        shutil.rmtree(PIC_PATH)
+    os.makedirs(PIC_PATH)
 
     # Wait for the SD card to be mounted.
     sd_path = wait_for_sd_card()

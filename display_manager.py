@@ -64,7 +64,7 @@ class DisplayManager:
                 self.last_selected_image = random_image
 
                 # Open and display the image
-                with Image.open(os.path.join(PIC_PATH, random_image)) as pic:
+                with Image.open(os.path.join(self.image_folder, random_image)) as pic:
                     pic = pic.rotate(self.rotation)
                     self.epd.display(self.epd.getbuffer(pic))
                     self.last_display_time = time.time()

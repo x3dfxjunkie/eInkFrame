@@ -33,7 +33,7 @@ class ImageConverter:
         target_height = 480
 
         with Image.open(img_path) as img:
-            #img = ImageOps.exif_transpose(img)
+            img = ImageOps.exif_transpose(img)
 
             # Original dimensions
             orig_width, orig_height = img.size
@@ -75,4 +75,3 @@ class ImageConverter:
             # Save the final image
             cropped_img.save(os.path.join(self.output_dir, file_name))
 
-            

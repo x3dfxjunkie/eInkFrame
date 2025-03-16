@@ -34,6 +34,7 @@ def main():
 
     # Wait for the SD card to be mounted.
     sd_path = wait_for_sd_card()
+    print(sd_path)
 
     # Create instances of the classes using the SD card as the source.
     image_converter = ImageConverter(source_dir=sd_path, output_dir=PIC_PATH)

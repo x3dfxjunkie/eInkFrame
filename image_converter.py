@@ -12,9 +12,9 @@ class ImageConverter:
 
     def process_images(self):
         valid_extensions = ('.jpg', '.jpeg', '.png')
-
+        print(f"Processing images from {self.source_dir} to {self.output_dir}")
         for img in os.listdir(self.source_dir):
-            
+            print(f"Found file: {img}")
             if img.startswith('.'):
                 continue
 

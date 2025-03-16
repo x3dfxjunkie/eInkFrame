@@ -35,13 +35,6 @@ class ImageConverter:
         with Image.open(img_path) as img:
             print("Beginning image processing at time: ", time.time())
             img = ImageOps.exif_transpose(img)
-            
-            print("Enchancing image...")
-            color = ImageEnhance.Color(img)
-            img = color.enhance(1.5)
-
-            contrast = ImageEnhance.Contrast(img)
-            img = contrast.enhance(1.5)
 
             # Original dimensions
             orig_width, orig_height = img.size
@@ -71,6 +64,13 @@ class ImageConverter:
             print("Cropping image...")
             # Crop the image
             cropped_img = resized_img.crop((left, top, right, bottom))
+
+            print("Enchancing image...")
+            color = ImageEnhance.Color(cropped_img)
+            cropped_img = color.enhance(1.5)
+
+            contrast = ImageEnhance.Contrast(cropped_img)
+            cropped_img = contrast.enhance(1.5)
             
             print("Saving image...")
             # Save the final image

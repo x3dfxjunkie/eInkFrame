@@ -16,8 +16,10 @@ def wait_for_sd_card(mount_base="/media/enriquepi"):
     while True:
         try:
             items = os.listdir(mount_base)
-            if len(items) == 1:
-                sd_path = os.path.join(mount_base, items[0])
+            valid_dirs = [item for item in items
+                          if item != "rootfs" and os.path.isdir(os.path.join(mount_base, item))]
+            if len(valid_dirs) == 1:
+                sd_path = os.path.join(mount_base, valid_dirs[0])
                 if os.path.isdir(sd_path):
                     print(f"SD card detected at: {sd_path}")
                     return sd_path

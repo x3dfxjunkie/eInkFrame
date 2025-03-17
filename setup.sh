@@ -46,5 +46,4 @@ else
     echo "Reboot skipped. Please remember to reboot at a later time."
 fi
 
-# For 32 bit: supo apt update, sudo apt install git
-# Install pillow
+# need to disable gui

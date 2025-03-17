@@ -1,7 +1,5 @@
 import os
-import sys
 from PIL import Image, ImageEnhance, ImageOps
-import time
 
 
 class ImageConverter:

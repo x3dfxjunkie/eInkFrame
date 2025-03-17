@@ -43,9 +43,9 @@ def main():
     print("classes created")
 
     # Process images from the SD card.
+    display_manager.processing_message()
     try:
         print("Processing images, please wait...")
-        display_manager.processing_message()
         image_converter.process_images()
     except Exception as e:
         print(f"Error during image processing: {e}")

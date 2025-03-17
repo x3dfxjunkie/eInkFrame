@@ -67,7 +67,7 @@ class DisplayManager:
     
     def processing_message(self):
         img = Image.new('RGB', (self.epd.width, self.epd.height), self.epd.WHITE)  # 255: clear the frame
-        font = ImageFont.truetype(os.path.join(LIB_PATH, 'Font.ttc'), 40, index=0)
+        font = ImageFont.truetype(os.path.join(LIB_PATH, 'waveshare_epc/Font.ttc'), 40, index=0)
 
         draw = ImageDraw.Draw(img)
         draw.text((5, 0), 'Beginning Setup, This May Take Several Minutes\nPlease Do Not Power Off or Remove SD Card', font = font, fill = self.epd.BLACK)

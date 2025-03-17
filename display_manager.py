@@ -70,8 +70,8 @@ class DisplayManager:
         font = ImageFont.truetype(os.path.join(LIB_PATH, 'waveshare_epd/Font.ttc'), 60, index=2)
 
         draw = ImageDraw.Draw(img)
-        draw.text((300, 100), 'Beginning Setup', font = font, fill = self.epd.BLACK)
-        draw.text((250, 150), 'This May Take Several Minutes', font = font, fill = self.epd.BLACK)
-        draw.text((200, 200), 'Please Do Not Power Off or Remove SD Card', font = font, fill = self.epd.BLACK)
+        draw.text((200, 150), 'Beginning Setup', font = font, fill = self.epd.BLACK)
+        draw.text((150, 200), 'This May Take Several Minutes', font = font, fill = self.epd.BLACK)
+        draw.text((100, 250), 'Please Do Not Power Off or Remove SD Card', font = font, fill = self.epd.BLACK)
         self.epd.display(self.epd.getbuffer(img))
 

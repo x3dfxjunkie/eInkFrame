@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import random
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from lib.waveshare_epd import epd7in3f
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -36,14 +36,8 @@ class DisplayManager:
         return random_image
 
 
-    def clear_display(self):
-        self.epd.init()
-        self.epd.Clear()
+    def display_images(self):
 
-
-    def display_image(self):
-        self.epd.init()
-        
         images = self.fetch_image_files()
         random_image = self.select_random_image(images)
         self.last_selected_image = random_image
@@ -70,3 +64,12 @@ class DisplayManager:
                     self.epd.display(self.epd.getbuffer(pic))
                     self.last_display_time = time.time()
                     #self.epd.sleep()
+    
+    def processing_message(self):
+        img = Image.new('RGB', (self.epd.width, self.epd.height), self.epd.WHITE)  # 255: clear the frame
+        font = ImageFont.truetype(os.path.join(LIB_PATH, 'Font.ttc'), 40, index=0)
+
+        draw = ImageDraw.Draw(img)
+        draw.text((5, 0), 'Beginning Setup, This May Take Several Minutes\nPlease Do Not Power Off or Remove SD Card', font = font, fill = self.epd.BLACK)
+        self.epd.display(self.epd.getbuffer(img))
+

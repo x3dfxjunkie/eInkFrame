@@ -5,7 +5,6 @@ import shutil
 import time
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-LIB_PATH = os.path.join(SCRIPT_DIR, 'lib')
 PIC_PATH = os.path.join(SCRIPT_DIR, 'pic')
 
 def wait_for_sd_card(mount_base="/media/enriquepi"):
@@ -46,26 +45,14 @@ def main():
     # Process images from the SD card.
     try:
         print("Processing images, please wait...")
+        display_manager.processing_message()
         image_converter.process_images()
     except Exception as e:
         print(f"Error during image processing: {e}")
 
-    # Main loop: display images and monitor SD card status.
+    # Display images
     try:
-        while True:
-            # Check if the SD card is still mounted.
-            if not os.path.exists(sd_path):
-                print("SD card has been removed! Waiting for re-insertion...")
-                sd_path = wait_for_sd_card()
-                # Re-run image processing after the SD card is re-inserted.
-                image_converter = ImageConverter(source_dir=sd_path, output_dir=PIC_PATH)
-                try:
-                    print("Processing images, please wait...")
-                    image_converter.process_images()
-                except Exception as e:
-                    print(f"Error during image processing: {e}")
-
-            display_manager.display_image()
+        display_manager.display_images()
     except KeyboardInterrupt:
         print("Exiting gracefully.")
 

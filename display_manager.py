@@ -66,12 +66,15 @@ class DisplayManager:
                     #self.epd.sleep()
     
     def processing_message(self):
-        img = Image.new('RGB', (self.epd.width, self.epd.height), self.epd.WHITE)  # 255: clear the frame
-        font = ImageFont.truetype(os.path.join(LIB_PATH, 'waveshare_epd/Font.ttc'), 60, index=2)
+        # img = Image.new('RGB', (self.epd.width, self.epd.height), self.epd.WHITE)  # 255: clear the frame
+        # font_main = ImageFont.truetype(os.path.join(LIB_PATH, 'waveshare_epd/Font.ttc'), 60, index=2)
+        # font_sub = ImageFont.truetype(os.path.join(LIB_PATH, 'waveshare_epd/Font.ttc'), 40, index=2)
 
-        draw = ImageDraw.Draw(img)
-        draw.text((200, 150), 'Beginning Setup', font = font, fill = self.epd.BLACK)
-        draw.text((150, 200), 'This May Take Several Minutes', font = font, fill = self.epd.BLACK)
-        draw.text((100, 250), 'Please Do Not Power Off or Remove SD Card', font = font, fill = self.epd.BLACK)
-        self.epd.display(self.epd.getbuffer(img))
+        # draw = ImageDraw.Draw(img)
+        # draw.text((175, 150), 'Beginning Setup...', font = font_main, fill = self.epd.BLACK)
+        # draw.text((125, 210), 'This May Take Several Minutes', font = font_sub, fill = self.epd.BLACK)
+        # draw.text((75, 260), 'Please Do Not Power Off or Remove SD Card', font = font_sub, fill = self.epd.BLACK)
+        with Image.open(os.path.join(SCRIPT_DIR, 'start.jpg')) as img_start:
+                pic = pic.rotate(self.rotation)
+                self.epd.display(self.epd.getbuffer(img_start))
 

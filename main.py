@@ -94,11 +94,9 @@ def monitor_sd_card(mount_base=SD_MOUNT_BASE):
 
 
 def main():
-    # Initialize `sd_card_present` correctly before starting the monitor thread
-    if check_sd_card_presence():
-        print("SD card detected at startup.")
-        sd_card_present.set()
-    
+    wait_for_sd_card()
+    sd_card_present.set()
+
     # Start monitoring SD card in a separate thread
     threading.Thread(target=monitor_sd_card, daemon=True).start()
 

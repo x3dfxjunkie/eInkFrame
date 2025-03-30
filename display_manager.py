@@ -81,6 +81,6 @@ class DisplayManager:
         # draw.text((125, 210), 'This May Take Several Minutes', font = font_sub, fill = self.epd.BLACK)
         # draw.text((75, 260), 'Please Do Not Power Off or Remove SD Card', font = font_sub, fill = self.epd.BLACK)
         with Image.open(os.path.join(SCRIPT_DIR, f"messages/{message_file}")) as img_start:
-                pic = pic.rotate(self.rotation)
+                img_start = img_start.rotate(self.rotation)
                 self.epd.display(self.epd.getbuffer(img_start))
 

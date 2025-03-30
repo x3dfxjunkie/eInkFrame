@@ -6,8 +6,13 @@ import time
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PIC_PATH = os.path.join(SCRIPT_DIR, 'pic')
+SD_MOUNT_BASE = "/media/enriquepi"  # Adjust this path as needed
 
-def wait_for_sd_card(mount_base="/media/enriquepi"):
+display_manager = DisplayManager(image_folder=PIC_PATH)
+print("display manager created")
+
+
+def wait_for_sd_card(mount_base=SD_MOUNT_BASE):
     """
     Wait until an SD card is mounted in the mount_base directory.
     Assumes the SD card is the only item under mount_base.
@@ -23,9 +28,30 @@ def wait_for_sd_card(mount_base="/media/enriquepi"):
                     print(f"SD card detected at: {sd_path}")
                     return sd_path
             print("SD card not found. Please insert the SD card.")
+            display_manager.display_message('no_sd_card.jpg')
         except Exception as e:
             print(f"Error accessing {mount_base}: {e}")
         time.sleep(5)
+
+
+# def monitor_sd_card(mount_base=SD_MOUNT_BASE):
+#     """Continuously monitor SD card presence and trigger reprocessing if inserted."""
+#     global sd_card_present
+#     while True:
+#         items = os.listdir(mount_base)
+#         valid_dirs = [item for item in items if os.path.isdir(os.path.join(mount_base, item))]
+#         sd_inserted = len(valid_dirs) == 1
+
+#         if sd_inserted and not sd_card_present.is_set():
+#             print("SD card inserted. Reprocessing images...")
+#             sd_card_present.set()
+#             process_images()  # Restart processing
+
+#         elif not sd_inserted and sd_card_present.is_set():
+#             print("SD card removed.")
+#             sd_card_present.clear()
+
+#         time.sleep(2)
 
 
 def main():
@@ -37,13 +63,11 @@ def main():
     sd_path = wait_for_sd_card()
     print(sd_path)
 
-    # Create instances of the classes using the SD card as the source.
     image_converter = ImageConverter(source_dir=sd_path, output_dir=PIC_PATH)
-    display_manager = DisplayManager(image_folder=PIC_PATH)
-    print("classes created")
+    print("image converter created")
 
     # Process images from the SD card.
-    display_manager.processing_message()
+    display_manager.display_message('start.jpg')
     try:
         print("Processing images, please wait...")
         image_converter.process_images()

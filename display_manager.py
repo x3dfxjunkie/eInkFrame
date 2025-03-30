@@ -39,6 +39,12 @@ class DisplayManager:
     def display_images(self):
 
         images = self.fetch_image_files()
+
+        if not images:
+            print("No images found, displaying default image.")
+            self.display_message('no_valid_images.jpg')
+            return
+
         random_image = self.select_random_image(images)
         self.last_selected_image = random_image
             
@@ -65,7 +71,7 @@ class DisplayManager:
                     self.last_display_time = time.time()
                     #self.epd.sleep()
     
-    def processing_message(self):
+    def display_message(self, message_file):
         # img = Image.new('RGB', (self.epd.width, self.epd.height), self.epd.WHITE)  # 255: clear the frame
         # font_main = ImageFont.truetype(os.path.join(LIB_PATH, 'waveshare_epd/Font.ttc'), 60, index=2)
         # font_sub = ImageFont.truetype(os.path.join(LIB_PATH, 'waveshare_epd/Font.ttc'), 40, index=2)
@@ -74,7 +80,7 @@ class DisplayManager:
         # draw.text((175, 150), 'Beginning Setup...', font = font_main, fill = self.epd.BLACK)
         # draw.text((125, 210), 'This May Take Several Minutes', font = font_sub, fill = self.epd.BLACK)
         # draw.text((75, 260), 'Please Do Not Power Off or Remove SD Card', font = font_sub, fill = self.epd.BLACK)
-        with Image.open(os.path.join(SCRIPT_DIR, 'start.jpg')) as img_start:
+        with Image.open(os.path.join(SCRIPT_DIR, f"messages/{message_file}")) as img_start:
                 pic = pic.rotate(self.rotation)
                 self.epd.display(self.epd.getbuffer(img_start))
 

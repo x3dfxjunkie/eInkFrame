@@ -13,7 +13,6 @@ sudo raspi-config nonint do_i2c 0
 # sudo apt-get install python3-flask
 
 echo "Setting up python script epaper service..."
-PYTHON_SCRIPT="main.py"
 SERVICE_NAME="epaper.service"
 SERVICE_PATH="/etc/systemd/system/${SERVICE_NAME}"
 CURRENT_USER=${SUDO_USER:-$(whoami)}
@@ -28,9 +27,6 @@ ExecStart=/usr/bin/python3 $(pwd)/main.py
 WorkingDirectory=$(pwd)
 Restart=always
 User=$CURRENT_USER
-Environment=PYTHONUNBUFFERED=1
-StandardOutput=append:/home/pi/display-frame.log
-StandardError=append:/home/pi/display-frame-error.log
 
 [Install]
 WantedBy=multi-user.target
@@ -48,3 +44,7 @@ if [[ "$REBOOT_CHOICE" == "y" || "$REBOOT_CHOICE" == "Y" ]]; then
 else
     echo "Reboot skipped. Please remember to reboot at a later time."
 fi
+
+# Environment=PYTHONUNBUFFERED=1
+# StandardOutput=append:/home/enriquepi/display-frame.log
+# StandardError=append:/home/enriquepi/display-frame-error.log

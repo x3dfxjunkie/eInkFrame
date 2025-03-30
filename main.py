@@ -3,6 +3,7 @@ from display_manager import DisplayManager
 import os
 import shutil
 import time
+import threading
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PIC_PATH = os.path.join(SCRIPT_DIR, 'pic')
@@ -10,6 +11,7 @@ SD_MOUNT_BASE = "/media/enriquepi"  # Adjust this path as needed
 
 display_manager = DisplayManager(image_folder=PIC_PATH)
 print("display manager created")
+sd_card_present = threading.Event()
 
 
 def wait_for_sd_card(mount_base=SD_MOUNT_BASE):
@@ -34,27 +36,28 @@ def wait_for_sd_card(mount_base=SD_MOUNT_BASE):
         time.sleep(5)
 
 
-# def monitor_sd_card(mount_base=SD_MOUNT_BASE):
-#     """Continuously monitor SD card presence and trigger reprocessing if inserted."""
-#     global sd_card_present
-#     while True:
-#         items = os.listdir(mount_base)
-#         valid_dirs = [item for item in items if os.path.isdir(os.path.join(mount_base, item))]
-#         sd_inserted = len(valid_dirs) == 1
+def monitor_sd_card(mount_base=SD_MOUNT_BASE):
+    """Continuously monitor SD card presence and trigger reprocessing if inserted."""
+    global sd_card_present
+    while True:
+        items = os.listdir(mount_base)
+        valid_dirs = [item for item in items if os.path.isdir(os.path.join(mount_base, item))]
+        sd_inserted = len(valid_dirs) >= 1
 
-#         if sd_inserted and not sd_card_present.is_set():
-#             print("SD card inserted. Reprocessing images...")
-#             sd_card_present.set()
-#             process_images()  # Restart processing
+        if sd_inserted and not sd_card_present.is_set():
+            print("SD card inserted. Reprocessing images...")
+            sd_card_present.set()
+            display_manager.stop_display = True
+            process_images()  # Restart processing
 
-#         elif not sd_inserted and sd_card_present.is_set():
-#             print("SD card removed.")
-#             sd_card_present.clear()
+        elif not sd_inserted and sd_card_present.is_set():
+            print("SD card removed.")
+            sd_card_present.clear()
 
-#         time.sleep(2)
+        time.sleep(2)
 
 
-def main():
+def process_images():
     if os.path.exists(PIC_PATH):
         shutil.rmtree(PIC_PATH)
     os.makedirs(PIC_PATH)
@@ -77,8 +80,14 @@ def main():
     # Display images
     try:
         display_manager.display_images()
-    except KeyboardInterrupt:
-        print("Exiting gracefully.")
+    except Exception as e:
+        print(f"Error during image processing: {e}")
+
+
+def main():
+    threading.Thread(target=monitor_sd_card, daemon=True).start()
+    process_images()
+
 
 if __name__ == "__main__":
     main()

@@ -19,6 +19,7 @@ class DisplayManager:
         self.refresh_time = 180
         self.epd = epd7in3f.EPD()
         self.epd.init()
+        self.stop_display = False
 
 
     def fetch_image_files(self):
@@ -37,6 +38,7 @@ class DisplayManager:
 
 
     def display_images(self):
+        self.stop_display = False
 
         images = self.fetch_image_files()
 
@@ -55,7 +57,7 @@ class DisplayManager:
             self.last_display_time = time.time()
             #self.epd.sleep()
 
-        while True:
+        while not self.stop_display:
             current_time = time.time()
             elapsed_time = current_time - self.last_display_time
             
@@ -72,14 +74,6 @@ class DisplayManager:
                     #self.epd.sleep()
     
     def display_message(self, message_file):
-        # img = Image.new('RGB', (self.epd.width, self.epd.height), self.epd.WHITE)  # 255: clear the frame
-        # font_main = ImageFont.truetype(os.path.join(LIB_PATH, 'waveshare_epd/Font.ttc'), 60, index=2)
-        # font_sub = ImageFont.truetype(os.path.join(LIB_PATH, 'waveshare_epd/Font.ttc'), 40, index=2)
-
-        # draw = ImageDraw.Draw(img)
-        # draw.text((175, 150), 'Beginning Setup...', font = font_main, fill = self.epd.BLACK)
-        # draw.text((125, 210), 'This May Take Several Minutes', font = font_sub, fill = self.epd.BLACK)
-        # draw.text((75, 260), 'Please Do Not Power Off or Remove SD Card', font = font_sub, fill = self.epd.BLACK)
         with Image.open(os.path.join(SCRIPT_DIR, f"messages/{message_file}")) as img_start:
                 img_start = img_start.rotate(self.rotation)
                 self.epd.display(self.epd.getbuffer(img_start))

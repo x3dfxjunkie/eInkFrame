@@ -46,6 +46,7 @@ def start_frame_manager(sd_path):
     
     print("Starting image processing script...")
     process = subprocess.Popen(["python3", IMAGE_PROCESSING_SCRIPT, sd_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print("Started...")
 
 
 def monitor_sd_card():

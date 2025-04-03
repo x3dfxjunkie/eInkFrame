@@ -3,19 +3,21 @@ import sys
 import time
 import subprocess
 import signal
+import gpiozero
 # from lib.waveshare_epd import epdconfig
 
 SD_MOUNT_BASE = "/media/enriquepi"  # Adjust as needed
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 IMAGE_PROCESSING_SCRIPT = os.path.join(SCRIPT_DIR, "frame_manager.py")
-BUSY_PIN = 24
 process = None  # Holds the subprocess running image_processing.py
 sd_was_removed = False  # Track if SD card was removed
 
 
 def is_display_busy():
     # return epdconfig.digital_read(BUSY_PIN) == 0 # 0 means busy, 1 means idle
-    return False
+    busy_signal = gpiozero.Button(24, pull_up = False).value
+    print(f"Checking display busy status: {busy_signal} (0 means busy, 1 means idle)")
+    return busy_signal == 0
 
 
 # def wait_for_sd_card():

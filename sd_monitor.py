@@ -15,10 +15,11 @@ sd_was_removed = False  # Track if SD card was removed
 
 def is_display_busy():
     # return epdconfig.digital_read(BUSY_PIN) == 0 # 0 means busy, 1 means idle
-    busy_signal = gpiozero.Button(24, pull_up = False).value
-    gpiozero.Device.pin_factory.close()
-    print(f"Checking display busy status: {busy_signal} (0 means busy, 1 means idle)")
-    return busy_signal == 0
+    # busy_signal = gpiozero.Button(24, pull_up = False).value
+    # gpiozero.Device.pin_factory.close()
+    # print(f"Checking display busy status: {busy_signal} (0 means busy, 1 means idle)")
+    # return busy_signal == 0
+    return False # Placeholder for actual busy check logic
 
 
 # def wait_for_sd_card():
@@ -72,16 +73,16 @@ def monitor_sd_card():
             if valid_dirs:
                 sd_path = os.path.join(SD_MOUNT_BASE, valid_dirs[0])
 
-                if not sd_inserted:
-                    print("SD card inserted. Starting frame_manager...")
+                if not sd_inserted or sd_was_removed:  
+                    # Restart frame_manager only if it's a fresh insert or after removal
+                    if sd_was_removed:
+                        print("SD card reinserted. Restarting frame_manager...")
+                    else:
+                        print("SD card inserted. Starting frame_manager...")
+                    
                     start_frame_manager(sd_path)
                     sd_inserted = True
-                    sd_was_removed = False  # Reset removal flag
-
-                elif sd_was_removed:  # Restart only if SD was previously removed
-                    print("SD card reinserted. Restarting frame_manager...")
-                    start_frame_manager(sd_path)
-                    sd_was_removed = False  # Reset flag after restart
+                    sd_was_removed = False  # Reset flag after starting
 
             else:
                 if sd_inserted:

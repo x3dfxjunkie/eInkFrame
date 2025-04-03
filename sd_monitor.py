@@ -44,7 +44,7 @@ def start_frame_manager(sd_path):
         print("Waiting for display to be idle...")
         time.sleep(2)
     
-    print("Starting image processing script...")
+    print(f"Starting image processing script with path {sd_path}...")
     process = subprocess.Popen(["python3", IMAGE_PROCESSING_SCRIPT, sd_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     print("Started...")
 

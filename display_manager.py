@@ -11,12 +11,12 @@ sys.path.append(LIB_PATH)
 
 class DisplayManager:
 
-    def __init__(self, image_folder):
+    def __init__(self, image_folder, refresh_time):
         self.last_display_time = time.time()
         self.last_selected_image = None
         self.image_folder = image_folder
         self.rotation = 0
-        self.refresh_time = 180
+        self.refresh_time = refresh_time
         self.epd = epd7in3f.EPD()
         self.epd.init()
         self.stop_display = False

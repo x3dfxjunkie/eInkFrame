@@ -10,11 +10,15 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PIC_PATH = os.path.join(SCRIPT_DIR, 'pic')
 SD_MOUNT_BASE = "/media/enriquepi"  # Adjust this path as needed
 
-display_manager = DisplayManager(image_folder=PIC_PATH)
-print("Display manager created")
 
+if __name__ == "__main__":
+    sd_path = sys.argv[1]
+    refresh_time = sys.argv[2]
+    print(f"Frame manager received SD path: {sd_path}")
 
-def process_and_display_images(sd_path):
+    display_manager = DisplayManager(image_folder=PIC_PATH, refresh_time=refresh_time)
+    print("Display manager created")
+
     if os.path.exists(PIC_PATH):
         shutil.rmtree(PIC_PATH)
     os.makedirs(PIC_PATH)
@@ -35,9 +39,3 @@ def process_and_display_images(sd_path):
         display_manager.display_images()
     except Exception as e:
         print(f"Error during image display: {e}")
-
-
-if __name__ == "__main__":
-    sd_path = sys.argv[1]
-    print(f"Frame manager received SD path: {sd_path}")
-    process_and_display_images(sd_path)

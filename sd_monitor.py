@@ -22,19 +22,24 @@ def is_display_busy():
     return False # Placeholder for actual busy check logic
 
 
-# def wait_for_sd_card():
-#     """Wait for an SD card to be inserted and return its mount path."""
-#     while True:
-#         items = os.listdir(SD_MOUNT_BASE)
-#         valid_dirs = [item for item in items if item != "rootfs" and os.path.isdir(os.path.join(SD_MOUNT_BASE, item))]
-
-#         if len(valid_dirs) == 1:
-#             sd_path = os.path.join(SD_MOUNT_BASE, valid_dirs[0])
-#             print(f"SD card detected at: {sd_path}")
-#             return sd_path
-
-#         print("SD card not found. Waiting...")
-#         time.sleep(5)
+def read_number_from_file(sd_path, filename="refresh_time.txt"):
+    """Read a number from a text file in the SD card directory."""
+    file_path = os.path.join(sd_path, filename)
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r") as f:
+                number = f.read().strip()
+                if number.isdigit():  # Ensure it's a valid number
+                    return int(number)
+                else:
+                    print(f"Invalid number in {filename}, defaulting to 0")
+                    return 0
+        except Exception as e:
+            print(f"Error reading {filename}: {e}")
+            return 0
+    else:
+        print(f"{filename} not found, defaulting to 600")
+        return 600
 
 
 def start_frame_manager(sd_path):
@@ -49,9 +54,12 @@ def start_frame_manager(sd_path):
         print("Waiting for display to be idle...")
         time.sleep(2)
     
+    # Read number from file
+    number = read_number_from_file(sd_path)
+    
     print(f"Starting image processing script with path {sd_path}...")
     process = subprocess.Popen(
-        ["python3", IMAGE_PROCESSING_SCRIPT, sd_path], 
+        ["python3", IMAGE_PROCESSING_SCRIPT, sd_path, str(number)], 
         # stdout=subprocess.PIPE, 
         # stderr=subprocess.PIPE,
         stdout=sys.stdout, 

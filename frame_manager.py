@@ -39,4 +39,5 @@ def process_and_display_images(sd_path):
 
 if __name__ == "__main__":
     sd_path = sys.argv[1]
+    print(f"Frame manager received SD path: {sd_path}")
     process_and_display_images(sd_path)

@@ -40,7 +40,7 @@ def start_frame_manager(sd_path):
         process.send_signal(signal.SIGTERM)  # Gracefully terminate the process
         process.wait()
 
-    while not is_display_busy():
+    while is_display_busy():
         print("Waiting for display to be idle...")
         time.sleep(2)
     

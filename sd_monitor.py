@@ -16,6 +16,7 @@ sd_was_removed = False  # Track if SD card was removed
 def is_display_busy():
     # return epdconfig.digital_read(BUSY_PIN) == 0 # 0 means busy, 1 means idle
     busy_signal = gpiozero.Button(24, pull_up = False).value
+    gpiozero.Device.pin_factory.close()
     print(f"Checking display busy status: {busy_signal} (0 means busy, 1 means idle)")
     return busy_signal == 0
 

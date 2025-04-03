@@ -11,7 +11,7 @@ PIC_PATH = os.path.join(SCRIPT_DIR, 'pic')
 SD_MOUNT_BASE = "/media/enriquepi"  # Adjust this path as needed
 
 display_manager = DisplayManager(image_folder=PIC_PATH)
-print("display manager created")
+print("Display manager created")
 
 
 def process_and_display_images(sd_path):
@@ -20,7 +20,7 @@ def process_and_display_images(sd_path):
     os.makedirs(PIC_PATH)
 
     image_converter = ImageConverter(source_dir=sd_path, output_dir=PIC_PATH)
-    print("image converter created")
+    print("Image converter created")
 
     # Process images from the SD card
     display_manager.display_message('start.jpg')

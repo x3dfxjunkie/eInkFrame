@@ -6,7 +6,7 @@ import signal
 import gpiozero
 # from lib.waveshare_epd import epdconfig
 
-SD_MOUNT_BASE = "/media/enriquepi"  # Adjust as needed
+SD_MOUNT_BASE = "/media/pi"  # Adjust as needed
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 IMAGE_PROCESSING_SCRIPT = os.path.join(SCRIPT_DIR, "frame_manager.py")
 process = None  # Holds the subprocess running image_processing.py
@@ -32,11 +32,11 @@ def read_number_from_file(sd_path, filename="refresh_time.txt"):
                 if number.isdigit():  # Ensure it's a valid number
                     return int(number)
                 else:
-                    print(f"Invalid number in {filename}, defaulting to 0")
-                    return 0
+                    print(f"Invalid number in {filename}, defaulting to 600")
+                    return 600
         except Exception as e:
             print(f"Error reading {filename}: {e}")
-            return 0
+            return 600
     else:
         print(f"{filename} not found, defaulting to 600")
         return 600
@@ -60,8 +60,6 @@ def start_frame_manager(sd_path):
     print(f"Starting image processing script with path {sd_path}...")
     process = subprocess.Popen(
         ["python3", IMAGE_PROCESSING_SCRIPT, sd_path, str(number)], 
-        # stdout=subprocess.PIPE, 
-        # stderr=subprocess.PIPE,
         stdout=sys.stdout, 
         stderr=sys.stderr,
         text=True)
@@ -76,7 +74,7 @@ def monitor_sd_card():
     while True:
         try:
             items = os.listdir(SD_MOUNT_BASE)
-            valid_dirs = [item for item in items if item != "rootfs" and os.path.isdir(os.path.join(SD_MOUNT_BASE, item))]
+            valid_dirs = [item for item in items if os.path.isdir(os.path.join(SD_MOUNT_BASE, item))]
             
             if valid_dirs:
                 sd_path = os.path.join(SD_MOUNT_BASE, valid_dirs[0])

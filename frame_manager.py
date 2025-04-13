@@ -8,7 +8,7 @@ import threading
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PIC_PATH = os.path.join(SCRIPT_DIR, 'pic')
-SD_MOUNT_BASE = "/media/enriquepi"  # Adjust this path as needed
+SD_MOUNT_BASE = "/media/pi"  # Adjust this path as needed
 
 
 if __name__ == "__main__":

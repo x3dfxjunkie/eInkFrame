@@ -40,7 +40,3 @@ if [[ "$REBOOT_CHOICE" == "y" || "$REBOOT_CHOICE" == "Y" ]]; then
 else
     echo "Reboot skipped. Please remember to reboot at a later time."
 fi
-
-# Environment=PYTHONUNBUFFERED=1
-# StandardOutput=append:/home/enriquepi/display-frame.log
-# StandardError=append:/home/enriquepi/display-frame-error.log

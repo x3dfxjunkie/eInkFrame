@@ -1,6 +1,6 @@
 # pyePaper - A ePaper/eInk Digital Picture Frame Powered by Raspberry Pi
 
-### The pyePaper is a robust digital picture frame powered by Raspberry Pi that utilizes a [Waveshare 7.3 inch 7-Color ePaper Display]([https://www.waveshare.com/5.65inch-e-paper-module-f.htm](https://www.waveshare.com/7.3inch-e-paper-hat-f.htm) for a natural look. Simply upload images in a supported format to an SD card, and the display will actomatically cycle through them at a customizable interval!
+### The pyePaper is a robust digital picture frame powered by Raspberry Pi that utilizes a [Waveshare 7.3 inch 7-Color ePaper Display]([https://www.waveshare.com/7.3inch-e-paper-hat-f.htm]) for a natural look. Simply upload images in a supported format to an SD card, and the display will automatically cycle through them at a customizable interval!
 
 ## Contents:
 - [Required Hardware](#required-hardware-and-assembly)  

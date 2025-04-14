@@ -3,7 +3,7 @@ import sys
 import time
 import subprocess
 import signal
-import gpiozero # type: ignore
+import gpiozero
 # from lib.waveshare_epd import epdconfig
 
 SD_MOUNT_BASE = "/media/pi"  # Adjust as needed

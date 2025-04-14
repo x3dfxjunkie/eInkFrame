@@ -3,8 +3,6 @@ from display_manager import DisplayManager
 import os
 import shutil
 import sys
-import time
-import threading
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PIC_PATH = os.path.join(SCRIPT_DIR, 'pic')

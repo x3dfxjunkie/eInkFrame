@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import random
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from lib.waveshare_epd import epd7in3f
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -80,7 +80,7 @@ class DisplayManager:
                     self.epd.display(self.epd.getbuffer(pic))
                     self.last_display_time = time.time()
     
-    
+
     def display_message(self, message_file):
         with Image.open(os.path.join(SCRIPT_DIR, f"messages/{message_file}")) as img_start:
                 img_start = img_start.rotate(self.rotation)

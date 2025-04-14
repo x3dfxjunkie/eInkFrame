@@ -12,6 +12,10 @@
 - **Raspberry Pi Zero 2 W**
 - **ePaper Display:** The current version of this application only supports the [Waveshare 7.3 inch 7-Color ePaper Display](https://www.waveshare.com/5.65inch-e-paper-module-f.htm)
 - **Picture Frame**: Buy a frame, design your own, or use the 3D print files available [here](link tbd)
+    - Note: The 3D printed frame requires 2 M3x20mm screws and nuts
+- **2 Micro SD cards (one for the Pi, one for images)**
+- **Micro USB to Micro SD Card reader**
+- **Micro USB Power Cable**
 
 ## Setup
 
@@ -29,5 +33,5 @@ sudo bash setup.sh
 Be sure to reboot the Pi after the setup is complete!
 
 ## Video Demo
-Note: The video was shortened due to upload size constraints. Actual screen refresh time is ~30 seconds
+Note: The video was shortened due to upload size constraints. The actual screen refresh time is ~30 seconds
 <video src="" />

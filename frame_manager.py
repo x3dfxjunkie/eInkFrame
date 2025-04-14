@@ -12,14 +12,18 @@ SD_MOUNT_BASE = "/media/pi"  # Adjust this path as needed
 
 
 if __name__ == "__main__":
+
+    # Collect arguments from the command line
     sd_path = sys.argv[1]
     refresh_time = int(sys.argv[2])
     print(f"Frame manager received SD path: {sd_path}")
     print(f"Frame manager received refresh time: {refresh_time} seconds")
-
+    
     display_manager = DisplayManager(image_folder=PIC_PATH, refresh_time=refresh_time)
     print("Display manager created")
 
+    # Delete existing directory and create a new one
+    # This is where the images will be stored
     if os.path.exists(PIC_PATH):
         shutil.rmtree(PIC_PATH)
     os.makedirs(PIC_PATH)

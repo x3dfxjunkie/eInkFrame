@@ -3,12 +3,15 @@ from PIL import Image, ImageEnhance, ImageOps
 
 
 class ImageConverter:
+    """
+    Class to convert images for display on the e-Paper screen.
+    """
 
     def __init__(self, source_dir, output_dir):
         self.source_dir = source_dir
         self.output_dir = output_dir
 
-
+    # Finds valid image files in the source directory to process.
     def process_images(self):
         valid_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.gif', '.tiff')
 
@@ -25,6 +28,9 @@ class ImageConverter:
                 self.resize_image(img_path, img)
             
 
+    # Resizes the image to fit the target dimensions while maintaining aspect ratio.
+    # Crops the image to the target dimensions and enhances color and contrast.
+    # Saves the processed image to the output directory.
     def resize_image(self, img_path, file_name):
         # Screen target size dims
         target_width = 800

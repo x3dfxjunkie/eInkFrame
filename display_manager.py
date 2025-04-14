@@ -10,7 +10,13 @@ LIB_PATH = os.path.join(SCRIPT_DIR, 'lib')
 sys.path.append(LIB_PATH)
 
 class DisplayManager:
+    """
+    Class to manage the display of images on the e-Paper screen.
+    """
 
+    # Initializes the display using the epd7in3f library.
+    # Sets the rotation and refresh time for the display.
+    # Initializes the last display time and selected image to None.
     def __init__(self, image_folder, refresh_time):
         self.last_display_time = time.time()
         self.last_selected_image = None
@@ -21,11 +27,12 @@ class DisplayManager:
         self.epd.init()
         self.stop_display = False
 
-
+    # Fetches the image files from the specified folder.
     def fetch_image_files(self):
         return [f for f in os.listdir(self.image_folder)]
 
 
+    # Selects a random image from the list of images.
     def select_random_image(self, images):
         # If one image or less
         if len(images) <= 1:
@@ -37,6 +44,7 @@ class DisplayManager:
         return random_image
 
 
+    # Continuously loop to display a random image from the specified folder at the specified refresh time.
     def display_images(self):
         self.stop_display = False
 
@@ -71,6 +79,7 @@ class DisplayManager:
                     pic = pic.rotate(self.rotation)
                     self.epd.display(self.epd.getbuffer(pic))
                     self.last_display_time = time.time()
+    
     
     def display_message(self, message_file):
         with Image.open(os.path.join(SCRIPT_DIR, f"messages/{message_file}")) as img_start:

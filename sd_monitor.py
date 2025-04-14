@@ -3,33 +3,24 @@ import sys
 import time
 import subprocess
 import signal
-import gpiozero
+import gpiozero # type: ignore
 # from lib.waveshare_epd import epdconfig
 
 SD_MOUNT_BASE = "/media/pi"  # Adjust as needed
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 IMAGE_PROCESSING_SCRIPT = os.path.join(SCRIPT_DIR, "frame_manager.py")
-process = None  # Holds the subprocess running image_processing.py
+process = None  # Holds the subprocess running frame_manager.py
 sd_was_removed = False  # Track if SD card was removed
 
 
-def is_display_busy():
-    # return epdconfig.digital_read(BUSY_PIN) == 0 # 0 means busy, 1 means idle
-    # busy_signal = gpiozero.Button(24, pull_up = False).value
-    # gpiozero.Device.pin_factory.close()
-    # print(f"Checking display busy status: {busy_signal} (0 means busy, 1 means idle)")
-    # return busy_signal == 0
-    return False # Placeholder for actual busy check logic
-
-
-def read_number_from_file(sd_path, filename="refresh_time.txt"):
-    """Read a number from a text file in the SD card directory."""
+def get_refresh_time(sd_path, filename="refresh_time.txt"):
+    """Read refresh time (sec) from text file in the SD card directory."""
     file_path = os.path.join(sd_path, filename)
     if os.path.exists(file_path):
         try:
             with open(file_path, "r") as f:
                 number = f.read().strip()
-                if number.isdigit():  # Ensure it's a valid number
+                if number.isdigit():
                     return int(number)
                 else:
                     print(f"Invalid number in {filename}, defaulting to 600")
@@ -49,17 +40,14 @@ def start_frame_manager(sd_path):
         print("Stopping existing image processing script...")
         process.send_signal(signal.SIGTERM)  # Gracefully terminate the process
         process.wait()
-
-    while is_display_busy():
-        print("Waiting for display to be idle...")
-        time.sleep(2)
+        print("Existing image processing script stopped.")
     
     # Read number from file
-    number = read_number_from_file(sd_path)
+    refresh_time_sec = get_refresh_time(sd_path)
     
     print(f"Starting image processing script with path {sd_path}...")
     process = subprocess.Popen(
-        ["python3", IMAGE_PROCESSING_SCRIPT, sd_path, str(number)], 
+        ["python3", IMAGE_PROCESSING_SCRIPT, sd_path, str(refresh_time_sec)], 
         stdout=sys.stdout, 
         stderr=sys.stderr,
         text=True)
@@ -99,7 +87,7 @@ def monitor_sd_card():
         except Exception as e:
             print(f"Error monitoring SD card: {e}")
 
-        time.sleep(2)  # Adjust polling rate as needed
+        time.sleep(2) # Check every 2 seconds
 
 if __name__ == "__main__":
     monitor_sd_card()

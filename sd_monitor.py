@@ -89,5 +89,30 @@ def monitor_sd_card():
 
         time.sleep(2) # Check every 2 seconds
 
+
+def cleanup_stale_mounts():
+
+    for folder in os.listdir(SD_MOUNT_BASE):
+        full_path = os.path.join(SD_MOUNT_BASE, folder)
+
+        # Skip non-directories
+        if not os.path.isdir(full_path):
+            continue
+
+        # Try to access the folder (read + execute)
+        if not os.access(full_path, os.R_OK | os.X_OK):
+            print(f"Stale or inaccessible mount detected: {full_path}, attempting to remove...")
+
+            # Try to remove it
+            try:
+                subprocess.run(["sudo", "rm", "-r", full_path], check=True)
+                print(f"Removed stale mount folder: {full_path}")
+            except subprocess.CalledProcessError as e:
+                print(f"Failed to remove {full_path} (subprocess error): {e}")
+            except Exception as e:
+                print(f"Unexpected error removing {full_path}: {e}")
+
+
 if __name__ == "__main__":
+    cleanup_stale_mounts()
     monitor_sd_card()

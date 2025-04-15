@@ -11,7 +11,7 @@ sudo raspi-config nonint do_i2c 0
 echo "Setting up python script epaper service..."
 SERVICE_NAME="epaper.service"
 SERVICE_PATH="/etc/systemd/system/${SERVICE_NAME}"
-CURRENT_USER=${SUDO_USER:-$(whoami)}
+# CURRENT_USER=${SUDO_USER:-$(whoami)}
 
 sudo tee "$SERVICE_PATH" > /dev/null <<EOF
 [Unit]
@@ -22,7 +22,7 @@ After=network.target
 ExecStart=/usr/bin/python3 $(pwd)/sd_monitor.py
 WorkingDirectory=$(pwd)
 Restart=always
-User=$CURRENT_USER
+User=root
 
 [Install]
 WantedBy=multi-user.target

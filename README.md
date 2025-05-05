@@ -1,11 +1,10 @@
-# pyePaper - A ePaper/eInk Digital Picture Frame Powered by Raspberry Pi
+# eInkFrame - An eInk Digital Picture Frame Powered by Raspberry Pi and Python
 
-### The pyePaper is a robust digital picture frame powered by Raspberry Pi that utilizes a [Waveshare 7.3 inch 7-Color ePaper Display]([https://www.waveshare.com/7.3inch-e-paper-hat-f.htm]) for a natural look. Simply upload images in a supported format to an SD card, and the display will automatically cycle through them at a customizable interval!
+### The eInkFrame is a robust digital picture frame powered by Raspberry Pi that utilizes a [Waveshare 7.3 inch 7-Color ePaper Display]([https://www.waveshare.com/7.3inch-e-paper-hat-f.htm]) for a natural look. Simply upload images in a supported format to a micro SD card, and the display will automatically cycle through them at a customizable interval!
 
 ## Contents:
 - [Required Hardware](#required-hardware-and-assembly)  
-- [Setup](#setup)  
-- [Video Demo](#video-demo)
+- [Setup](#setup)
 
 ## Required Hardware
 
@@ -17,21 +16,17 @@
 - **Micro USB to Micro SD Card reader**
 - **Micro USB Power Cable**
 
-## Setup
+## Pi Setup
 
-**Before starting**, ensure that your Pi is running Pi OS 32 or 64 bit, and is connected to your home network
+**Before starting**, ensure that your Pi is running Pi OS 32 or 64 bit (Pi OS Lite is not supported), and is connected to your home network
 
-Upload images to the SD card (supported formats are JPG, JPEG, PNG, and BMP), and plug the SD card in using your micro SD card reader adapter.
+Upload images to the SD card (supported formats are JPG, JPEG, PNG, and BMP) and insert the card using your micro SD card reader adapter.
 
 Run the following commands to complete the setup:
 ```
-git clone https://github.com/EnriqueNeyra/py-ePaperFrame.git 
-cd py-ePaperFrame
+git clone https://github.com/EnriqueNeyra/eInkFrame.git 
+cd eInkFrame
 sudo bash setup.sh
 ```
 
 Be sure to reboot the Pi after the setup is complete!
-
-## Video Demo
-Note: The video was shortened due to upload size constraints. The actual screen refresh time is ~30 seconds
-<video src="" />

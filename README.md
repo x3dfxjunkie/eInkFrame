@@ -43,6 +43,10 @@ Be sure to reboot the Pi after the setup is complete!
 ## Assembly
 
 1. Attach the Pi and driver board, ensuring that the pin headers are fully inserted into the driver board
+<p align="center">
+<img src="https://github.com/user-attachments/assets/6a8b445e-f5aa-4209-9d59-1f44771c8c97" alt="Alt Text" width="900" >
+</p>
+
 ![Screenshot 2025-05-06 190519](https://github.com/user-attachments/assets/6a8b445e-f5aa-4209-9d59-1f44771c8c97)
 
 2. Insert the Pi and driver board into the enclosure

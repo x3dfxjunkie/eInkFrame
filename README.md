@@ -1,4 +1,4 @@
-# 🖼️ eInkFrame — An eInk Digital Picture Frame Powered by Raspberry Pi and Python
+# eInkFrame — An eInk Digital Picture Frame Powered by Raspberry Pi and Python
 
 ![Screenshot 2025-05-01 201531](https://github.com/user-attachments/assets/5bd552d1-ae64-4cdf-9b72-edce30af698a)
 
@@ -20,14 +20,13 @@ The **eInkFrame** is a robust digital picture frame powered by Raspberry Pi that
 
 | Item | Link |
 |------|------|
-| Raspberry Pi Zero 2 W | [Buy](https://amzn.to/3YBvaBV) |
-| Pi Power Supply | [Buy](https://amzn.to/42dMak0) |
-| Waveshare 7.3" 7-Color ePaper Display | [Buy](https://amzn.to/42fzjOk) |
-| Picture Frame STL Files | [Printables](https://www.printables.com/model/1287334-eink-picture-frame) |
+| Raspberry Pi Zero 2 W | [Amazon](https://amzn.to/3YBvaBV) |
+| Pi Power Supply | [Amazon](https://amzn.to/42dMak0) |
+| Waveshare 7.3" 7-Color ePaper Display | [Amazon](https://amzn.to/42fzjOk) |
+| Picture Frame 3D Print Files | [Printables](https://www.printables.com/model/1287334-eink-picture-frame) |
 | 2x Micro SD Cards (for OS & images) | [Buy](https://amzn.to/3EoRUhC) |
-| Micro USB to Micro SD Card Reader | [eBay](https://ebay.us/pmuPZh) |
-| Optional SD Card Readers | [Option 1](https://amzn.to/4iNaMVC), [Option 2](https://tinyurl.com/4p8etbcb) |
-| Screws/Nuts | Requires 2x M3x20mm screws and nuts |
+| Micro USB to Micro SD Card Reader | [Option 1](https://amzn.to/4iNaMVC), [Option 2](https://tinyurl.com/4p8etbcb) |
+| Screws/Nuts | 2x M3x20mm screws and nuts (if using provided frame 3D print)|
 
 ---
 

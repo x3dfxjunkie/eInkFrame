@@ -12,9 +12,9 @@
 
 - **Raspberry Pi Zero 2 W**
 - **ePaper Display:** The current version of this application only supports the [Waveshare 7.3 inch 7-Color ePaper Display](https://www.waveshare.com/5.65inch-e-paper-module-f.htm)
-- **Picture Frame**: Buy a frame, design your own, or use the 3D print files available [here](link tbd)
-    - Note: The 3D printed frame requires 2 M3x20mm screws and nuts
-- **2 Micro SD cards (one for the Pi, one for images)**
+- **Picture Frame**: 3D print files available [here](https://www.printables.com/model/1287334-eink-picture-frame)
+    - Note: Requires 2 M3x20mm screws and nuts
+- **2 Micro SD cards (one for the Pi, one for images) ([link](https://amzn.to/3EoRUhC))**
 - **Micro USB to Micro SD Card reader**
 - **Micro USB Power Cable**
 

@@ -3,7 +3,7 @@
 ### The eInkFrame is a robust digital picture frame powered by Raspberry Pi that utilizes a [Waveshare 7.3 inch 7-Color ePaper Display]([https://www.waveshare.com/7.3inch-e-paper-hat-f.htm]) for a natural look. Simply upload images in a supported format to a micro SD card, and the display will automatically cycle through them at a customizable interval!
 
 ## Contents:
-- [Required Hardware](#required-hardware-and-assembly)
+- [Required Hardware](#required-hardware)
 - [Pi Setup](#setup)
 - [Assembly](#assembly)
 - [Using The Frame](#using)
@@ -20,11 +20,15 @@
 
 ## Pi Setup
 
-**Before starting**, ensure that your Pi is running Pi OS 32 or 64 bit (Pi OS Lite is not supported), and is connected to your home network
+**Before starting**, ensure that your Pi is running Pi OS 32 or 64 bit (Pi OS Lite is not supported), and is connected to your home network.
+If you need more guidance on setting up Pi OS, follow the [steps outlined here](https://www.raspberrypi.com/documentation/computers/getting-started.html#installing-the-operating-system)
 
-Upload images to the SD card (supported formats are JPG, JPEG, PNG, and BMP) and insert the card using your micro SD card reader adapter.
+Once your Pi has booted, open Command Prompt (Windows) or Terminal (Mac), and SSH into the Pi using the following command (replace 'pi' and 'pi.local' with your configured username and hostname)
+```
+ssh pi@pi.local
+```
 
-Run the following commands to complete the setup:
+Once you are connected to the PI via SSH, run the following commands to complete the setup:
 ```
 git clone https://github.com/EnriqueNeyra/eInkFrame.git 
 cd eInkFrame
@@ -32,3 +36,5 @@ sudo bash setup.sh
 ```
 
 Be sure to reboot the Pi after the setup is complete!
+
+

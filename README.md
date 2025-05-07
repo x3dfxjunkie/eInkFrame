@@ -76,7 +76,31 @@ Be sure to reboot the Pi after the setup is complete!
 <img src="https://github.com/user-attachments/assets/280c1f53-32ee-486b-861c-43cb786ad754" alt="Alt Text" width="700">
 </p>
 
-
 Assembly is now complete! Time to test it out...
+
+## Using the Frame
+
+Upload any images you want displayed to a clean Micro SD card. Recommended and tested formats include: JPG/JPEG, PNG, TIFF, and BMP
+The default image cycle time is 600 seconds (10 minutes), and new images are chosen randomly while avoiding repeats. Optionally, default timing can be customized by adding a .txt file to the SD card that specifies the refresh time **in seconds**. Requirements for the text file are:
+1. It must be named 'refresh_time.txt'
+2. It must be at the root of the SD card (not in a folder)
+3. The text file should contain only a single number
+
+Use the Micro USB to Micro SD card adapter to plug the SD card into the Pi, then plug in the power cable.
+After a few moments, the following "Beginning Setup..." message will appear. The setup time will depend on the number of images on the SD Card.
+<p align="center">
+<img src="https://github.com/user-attachments/assets/1a624bbd-fe04-43ba-9848-4d6f9a4e9256" alt="Alt Text" width="300">
+</p>
+<p align="center">
+<img src="https://github.com/user-attachments/assets/0caeab3e-0e62-4c46-a58e-45cc1a4e156e" alt="Alt Text" width="300">
+</p>
+
+Your first image should begin to appear!
+
+## Video Demo
+Note: The video was shortened due to upload size constraints. The actual setup can take up to several minutes, and image display/refresh time is ~30 seconds
+<video src="https://github.com/user-attachments/assets/c6cf8acc-d6ac-4012-bf26-b0e4b8fefe73">
+
+
 
 

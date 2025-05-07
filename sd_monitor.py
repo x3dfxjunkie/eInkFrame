@@ -6,7 +6,8 @@ import signal
 import gpiozero
 # from lib.waveshare_epd import epdconfig
 
-SD_MOUNT_BASE = "/media/pi"  # Adjust as needed
+USERNAME = os.getenv("SUDO_USER") or os.getenv("USER")
+SD_MOUNT_BASE = "/media/{USERNAME}"  # Adjust as needed
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 IMAGE_PROCESSING_SCRIPT = os.path.join(SCRIPT_DIR, "frame_manager.py")
 process = None  # Holds the subprocess running frame_manager.py

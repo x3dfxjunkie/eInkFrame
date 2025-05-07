@@ -80,7 +80,7 @@ Assembly is now complete! Time to test it out...
 
 ## Using the Frame
 
-Upload any images you want displayed to a clean Micro SD card. Recommended and tested formats include: JPG/JPEG, PNG, TIFF, and BMP
+Upload any images you want displayed to a clean Micro SD card. Recommended and tested formats include: JPG/JPEG, PNG, TIFF, and BMP. 
 The default image cycle time is 600 seconds (10 minutes), and new images are chosen randomly while avoiding repeats. Optionally, default timing can be customized by adding a .txt file to the SD card that specifies the refresh time **in seconds**. Requirements for the text file are:
 1. It must be named 'refresh_time.txt'
 2. It must be at the root of the SD card (not in a folder)

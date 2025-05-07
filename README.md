@@ -1,7 +1,5 @@
 # eInkFrame - An eInk Digital Picture Frame Powered by Raspberry Pi and Python
 ![Screenshot 2025-05-01 201531](https://github.com/user-attachments/assets/5bd552d1-ae64-4cdf-9b72-edce30af698a)
-![Screenshot 2025-05-06 200929](https://github.com/user-attachments/assets/87cc0b6c-2c7f-4351-81fa-c8e5f28f82bc)
-![Screenshot 2025-05-06 201447](https://github.com/user-attachments/assets/80c07803-f6be-4b9b-a10e-4961cb80eace)
 
 ### The eInkFrame is a robust digital picture frame powered by Raspberry Pi that utilizes a [Waveshare 7.3 inch 7-Color ePaper Display]([https://www.waveshare.com/7.3inch-e-paper-hat-f.htm]) for a natural look. Simply upload images in a supported format to a micro SD card, and the display will automatically cycle through them at a customizable interval!
 

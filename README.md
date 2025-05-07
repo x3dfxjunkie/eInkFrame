@@ -8,6 +8,7 @@
 - [Pi Setup](#setup)
 - [Assembly](#assembly)
 - [Using The Frame](#using)
+- [Video Demo](#video-demo)
 
 ## Required Hardware
 

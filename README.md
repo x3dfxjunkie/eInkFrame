@@ -26,7 +26,7 @@ The **eInkFrame** is a robust digital picture frame powered by Raspberry Pi that
 | Picture Frame 3D Print Files | [Printables](https://www.printables.com/model/1287334-eink-picture-frame) |
 | 2x Micro SD Cards (for OS & images) | [Buy](https://amzn.to/3EoRUhC) |
 | Micro USB to Micro SD Card Reader | [Option 1](https://amzn.to/4iNaMVC), [Option 2](https://tinyurl.com/4p8etbcb) |
-| Screws/Nuts | 2x M3x20mm screws and nuts (if using provided frame 3D print)|
+| Screws/Nuts (if using 3D prints) | 2x M3x20mm screws and nuts |
 
 ---
 

@@ -18,10 +18,10 @@ Micro SD Card Reader (option 2): https://tinyurl.com/4p8etbcb
 - **[Raspberry Pi Zero 2 W](https://amzn.to/3YBvaBV)**
 - **[Pi Power Supply](https://amzn.to/42dMak0)**
 - **ePaper Display:** The current version of this application only supports the [Waveshare 7.3 inch 7-Color ePaper Display](https://amzn.to/42fzjOk)
-- **Picture Frame** 3D print files available [here](https://www.printables.com/model/1287334-eink-picture-frame)
+- **Picture Frame:** 3D print files available [here](https://www.printables.com/model/1287334-eink-picture-frame)
     - Note: Requires 2 M3x20mm screws and nuts
-- **2 Micro SD cards (one for the Pi, one for images) - [link](https://amzn.to/3EoRUhC)**
-- **Micro USB to Micro SD Card reader** - [link](https://ebay.us/pmuPZh)**
+- **[2 Micro SD cards](https://amzn.to/3EoRUhC) (one for the Pi, one for images)**
+- **[Micro USB to Micro SD Card reader](https://ebay.us/pmuPZh)**
 
 ## Pi Setup
 

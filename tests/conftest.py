@@ -2,8 +2,38 @@
 
 from typing import Generator
 from unittest.mock import MagicMock, patch
+from pathlib import Path
+import sys
 
 import pytest
+
+# Mock the waveshare_epd hardware library BEFORE any tests import display_manager or frame_manager
+# This prevents the module-level code in epdconfig.py from trying to load ARM-compiled .so files
+# on non-ARM systems (like macOS or x86 Linux).
+
+# Create the global mock objects that will be reused in tests
+_mock_epd_class = MagicMock()  # This is the EPD class constructor itself
+_mock_epd_instance = MagicMock()  # This is what EPD() returns
+_mock_epd_instance.width = 800
+_mock_epd_instance.height = 480
+_mock_epd_instance.init = MagicMock(return_value=0)
+_mock_epd_instance.display = MagicMock()
+_mock_epd_instance.getbuffer = MagicMock(return_value=bytes(800 * 480))
+_mock_epd_instance.Clear = MagicMock()
+_mock_epd_instance.sleep = MagicMock()
+
+_mock_epd_class.return_value = _mock_epd_instance
+
+_mock_epd_module = MagicMock()
+_mock_epd_module.EPD = _mock_epd_class
+
+_mock_epdconfig = MagicMock()
+_mock_epdconfig_module = MagicMock()
+
+# Register mock modules in sys.modules before any imports
+sys.modules['lib.waveshare_epd'] = MagicMock()
+sys.modules['lib.waveshare_epd.epd7in3f'] = _mock_epd_module
+sys.modules['lib.waveshare_epd.epdconfig'] = _mock_epdconfig_module
 
 
 @pytest.fixture
@@ -418,3 +448,190 @@ def autouse_print_suppression(capsys) -> Generator:
     """
     yield
     capsys.readouterr()  # Clear captured output
+
+
+# ===========================
+# Fixtures for display_manager, frame_manager, image_converter
+# ===========================
+
+@pytest.fixture
+def mock_epd() -> MagicMock:
+    """Mock Waveshare EPD7.3F e-paper display driver.
+
+    Provides a fully functional mock for hardware interactions.
+    """
+    epd = MagicMock()
+    epd.width = 800
+    epd.height = 480
+    epd.init = MagicMock(return_value=0)
+    epd.display = MagicMock()
+    epd.getbuffer = MagicMock(return_value=bytes(800 * 480))
+    epd.Clear = MagicMock()
+    epd.sleep = MagicMock()
+    return epd
+
+
+@pytest.fixture
+def mock_epd_module(mock_epd, monkeypatch) -> tuple:
+    """Mock the entire waveshare_epd.epd7in3f module.
+
+    Returns:
+        tuple: (mock_module, mock_epd_instance)
+    """
+    import sys
+    mock_module = MagicMock()
+    mock_module.EPD = MagicMock(return_value=mock_epd)
+    monkeypatch.setitem(sys.modules, 'lib.waveshare_epd.epd7in3f', mock_module)
+    return mock_module, mock_epd
+
+
+@pytest.fixture
+def mock_pil_image() -> tuple:
+    """Mock PIL.Image with common operations."""
+    with patch('PIL.Image.open') as mock_open_img:
+        mock_img = MagicMock()
+        mock_img.size = (800, 480)
+        mock_img.mode = 'RGB'
+        mock_img.rotate = MagicMock(return_value=mock_img)
+        mock_img.resize = MagicMock(return_value=mock_img)
+        mock_img.crop = MagicMock(return_value=mock_img)
+        mock_img.save = MagicMock()
+        mock_open_img.return_value = mock_img
+        yield mock_open_img, mock_img
+
+
+@pytest.fixture
+def mock_image_ops() -> Generator:
+    """Mock PIL.ImageOps for EXIF handling."""
+    with patch('PIL.ImageOps.exif_transpose') as mock_transpose:
+        mock_transpose.side_effect = lambda img: img
+        yield mock_transpose
+
+
+@pytest.fixture
+def mock_image_enhance() -> tuple:
+    """Mock PIL.ImageEnhance for color/contrast operations."""
+    with patch('PIL.ImageEnhance.Color') as mock_color, \
+         patch('PIL.ImageEnhance.Contrast') as mock_contrast:
+
+        mock_color_obj = MagicMock()
+        mock_color_obj.enhance = MagicMock(side_effect=lambda factor: MagicMock())
+        mock_color.return_value = mock_color_obj
+
+        mock_contrast_obj = MagicMock()
+        mock_contrast_obj.enhance = MagicMock(side_effect=lambda factor: MagicMock())
+        mock_contrast.return_value = mock_contrast_obj
+
+        yield mock_color, mock_contrast, mock_color_obj, mock_contrast_obj
+
+
+@pytest.fixture
+def mock_atexit(monkeypatch) -> MagicMock:
+    """Mock atexit.register() to track cleanup registration."""
+    mock_register = MagicMock()
+    monkeypatch.setattr('atexit.register', mock_register)
+    return mock_register
+
+
+@pytest.fixture
+def mock_random(monkeypatch) -> MagicMock:
+    """Mock random.choice for predictable tests."""
+    mock_choice = MagicMock(return_value='image.jpg')
+    monkeypatch.setattr('random.choice', mock_choice)
+    return mock_choice
+
+
+@pytest.fixture
+def mock_display_manager() -> MagicMock:
+    """Mock DisplayManager class for integration testing."""
+    manager = MagicMock()
+    manager.image_folder = '/test/images'
+    manager.refresh_time = 60
+    manager.rotation = 0
+    manager.display_images = MagicMock()
+    manager.display_message = MagicMock()
+    manager.reset_frame = MagicMock()
+    manager.fetch_image_files = MagicMock(return_value=[])
+    manager.select_random_image = MagicMock(return_value='image.jpg')
+    return manager
+
+
+@pytest.fixture
+def mock_image_converter() -> MagicMock:
+    """Mock ImageConverter class for integration testing."""
+    converter = MagicMock()
+    converter.source_dir = '/test/source'
+    converter.output_dir = '/test/output'
+    converter.target_width = 800
+    converter.target_height = 480
+    converter.process_images = MagicMock()
+    converter.resize_image = MagicMock()
+    return converter
+
+
+@pytest.fixture
+def test_images_dir() -> Path:
+    """Return path to test images directory."""
+    return Path(__file__).parent / 'test_images'
+
+
+@pytest.fixture
+def real_pil_image():
+    """Create a real PIL Image (800x480) for integration tests."""
+    from PIL import Image
+    return Image.new('RGB', (800, 480), color='white')
+
+
+@pytest.fixture
+def real_pil_image_various_sizes():
+    """Create various sized real PIL images for aspect ratio testing."""
+    from PIL import Image
+    return {
+        'square': Image.new('RGB', (500, 500), color='blue'),
+        'wide': Image.new('RGB', (1600, 900), color='green'),
+        'tall': Image.new('RGB', (600, 1200), color='red'),
+        'small': Image.new('RGB', (100, 100), color='yellow'),
+        'large': Image.new('RGB', (4000, 3000), color='purple'),
+    }
+
+
+@pytest.fixture
+def real_pil_image_color_modes():
+    """Create images with various color modes for testing."""
+    from PIL import Image
+    return {
+        'RGB': Image.new('RGB', (800, 480), color='white'),
+        'RGBA': Image.new('RGBA', (800, 480), color=(255, 255, 255, 255)),
+        'L': Image.new('L', (800, 480), color=128),  # Grayscale
+        'P': Image.new('P', (800, 480)),  # Palette mode
+    }
+
+
+@pytest.fixture
+def image_format_params() -> list:
+    """Parameters for image format testing."""
+    return [
+        '.jpg', '.JPG', '.jpeg', '.JPEG',
+        '.png', '.PNG',
+        '.bmp', '.BMP',
+        '.gif', '.GIF',
+        '.tiff', '.TIFF',
+    ]
+
+
+@pytest.fixture
+def rotation_params() -> list:
+    """Parameters for rotation angle testing."""
+    return [0, 90, 180, 270]
+
+
+@pytest.fixture
+def aspect_ratio_params() -> list:
+    """Parameters for aspect ratio testing."""
+    return [
+        {'size': (500, 500), 'name': 'square', 'ratio': 1.0},
+        {'size': (1600, 900), 'name': 'wide_16_9', 'ratio': 1.78},
+        {'size': (600, 1200), 'name': 'tall_1_2', 'ratio': 0.5},
+        {'size': (2400, 900), 'name': 'ultra_wide_21_9', 'ratio': 2.67},
+        {'size': (600, 1600), 'name': 'ultra_tall_3_8', 'ratio': 0.375},
+    ]

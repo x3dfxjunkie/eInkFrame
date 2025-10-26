@@ -18,6 +18,10 @@ on:
       - 'pyproject.toml'
       - '!lib/**'
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -25,7 +29,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ['3.9', '3.11', '3.13', '3.14']
+        python-version: ['3.9', '3.11', '3.12', '3.13', '3.14']
       fail-fast: false
 
     steps:
@@ -34,15 +38,16 @@ jobs:
         with:
           fetch-depth: 0  # Full history for better diffs
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+      - name: Setup UV
+        id: setup-uv
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
-          cache: 'pip'
+          activate-environment: "true"
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          source ${{ steps.setup-uv.outputs.venv }}/bin/activate
           pip install -r requirements-dev.txt
 
       - name: Run pytest with coverage
@@ -106,7 +111,7 @@ jobs:
 
       - name: Upload coverage artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report-py${{ matrix.python-version }}
           path: |

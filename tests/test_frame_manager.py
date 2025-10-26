@@ -475,17 +475,19 @@ class TestErrorHandling:
 class TestIntegration:
     """Tests for integration between components."""
 
+    @patch('os.path.exists')
     @patch('frame_manager.DisplayManager')
     @patch('frame_manager.ImageConverter')
     @patch('sys.argv', ['frame_manager.py', '/media/pi/sd', '60'])
     @patch('shutil.rmtree')
     @patch('os.makedirs')
     def test_full_workflow_integration(
-        self, mock_makedirs, mock_rmtree, mock_converter, mock_display
+        self, mock_makedirs, mock_rmtree, mock_converter, mock_display, mock_exists
     ):
         """Test complete workflow with all components."""
         from frame_manager import main
 
+        mock_exists.return_value = True
         mock_converter_instance = MagicMock()
         mock_converter_instance.process_images = MagicMock()
         mock_converter.return_value = mock_converter_instance

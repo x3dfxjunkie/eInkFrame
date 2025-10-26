@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+if [[ "$@" =~ '-v' ]]; then set -x; fi
 
 echo "Enabling SPI interface..."
 sudo sed -i 's/^dtparam=spi=.*/dtparam=spi=on/' /boot/config.txt
@@ -40,3 +42,5 @@ if [[ "$REBOOT_CHOICE" == "y" || "$REBOOT_CHOICE" == "Y" ]]; then
 else
     echo "Reboot skipped. Please remember to reboot at a later time."
 fi
+
+exit 0

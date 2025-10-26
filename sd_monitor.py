@@ -1,9 +1,9 @@
 import os
+import signal
+import subprocess
 import sys
 import time
-import subprocess
-import signal
-import gpiozero
+
 # from lib.waveshare_epd import epdconfig
 
 USERNAME = os.getenv("SUDO_USER") or os.getenv("USER")
@@ -42,16 +42,17 @@ def start_frame_manager(sd_path):
         process.send_signal(signal.SIGTERM)  # Gracefully terminate the process
         process.wait()
         print("Existing image processing script stopped.")
-    
+
     # Read number from file
     refresh_time_sec = get_refresh_time(sd_path)
-    
+
     print(f"Starting image processing script with path {sd_path}...")
     process = subprocess.Popen(
-        ["python3", IMAGE_PROCESSING_SCRIPT, sd_path, str(refresh_time_sec)], 
-        stdout=sys.stdout, 
+        ["python3", IMAGE_PROCESSING_SCRIPT, sd_path, str(refresh_time_sec)],
+        stdout=sys.stdout,
         stderr=sys.stderr,
-        text=True)
+        text=True,
+    )
     print("Started...")
 
 
@@ -64,17 +65,17 @@ def monitor_sd_card():
         try:
             items = os.listdir(SD_MOUNT_BASE)
             valid_dirs = [item for item in items if os.path.isdir(os.path.join(SD_MOUNT_BASE, item))]
-            
+
             if valid_dirs:
                 sd_path = os.path.join(SD_MOUNT_BASE, valid_dirs[0])
 
-                if not sd_inserted or sd_was_removed:  
+                if not sd_inserted or sd_was_removed:
                     # Restart frame_manager only if it's a fresh insert or after removal
                     if sd_was_removed:
                         print("SD card reinserted. Restarting frame_manager...")
                     else:
                         print("SD card inserted. Starting frame_manager...")
-                    
+
                     start_frame_manager(sd_path)
                     sd_inserted = True
                     sd_was_removed = False  # Reset flag after starting
@@ -88,11 +89,10 @@ def monitor_sd_card():
         except Exception as e:
             print(f"Error monitoring SD card: {e}")
 
-        time.sleep(2) # Check every 2 seconds
+        time.sleep(2)  # Check every 2 seconds
 
 
 def cleanup_stale_mounts():
-
     for folder in os.listdir(SD_MOUNT_BASE):
         full_path = os.path.join(SD_MOUNT_BASE, folder)
 

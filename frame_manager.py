@@ -1,22 +1,22 @@
-from image_converter import ImageConverter
-from display_manager import DisplayManager
 import os
 import shutil
 import sys
 
+from display_manager import DisplayManager
+from image_converter import ImageConverter
+
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PIC_PATH = os.path.join(SCRIPT_DIR, 'pic')
+PIC_PATH = os.path.join(SCRIPT_DIR, "pic")
 SD_MOUNT_BASE = "/media/pi"  # Adjust this path as needed
 
 
 if __name__ == "__main__":
-
     # Collect arguments from the command line
     sd_path = sys.argv[1]
     refresh_time = int(sys.argv[2])
     print(f"Frame manager received SD path: {sd_path}")
     print(f"Frame manager received refresh time: {refresh_time} seconds")
-    
+
     display_manager = DisplayManager(image_folder=PIC_PATH, refresh_time=refresh_time)
     print("Display manager created")
 
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     print("Image converter created")
 
     # Process images from the SD card
-    display_manager.display_message('start.jpg')
+    display_manager.display_message("start.jpg")
     try:
         print("Processing images, please wait...")
         image_converter.process_images()

@@ -1,4 +1,5 @@
 import os
+
 from PIL import Image, ImageEnhance, ImageOps
 
 
@@ -13,20 +14,18 @@ class ImageConverter:
 
     # Finds valid image files in the source directory to process.
     def process_images(self):
-        valid_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.gif', '.tiff')
+        valid_extensions = (".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tiff")
 
         for img in os.listdir(self.source_dir):
-
-            if img.startswith('.'):
+            if img.startswith("."):
                 continue
-            
+
             print(f"Found file: {img}")
             img_path = os.path.join(self.source_dir, img)
 
             if os.path.isfile(img_path) and img.lower().endswith(valid_extensions):
                 print(f"Resizing image: {img_path}")
                 self.resize_image(img_path, img)
-            
 
     # Resizes the image to fit the target dimensions while maintaining aspect ratio.
     # Crops the image to the target dimensions and enhances color and contrast.
@@ -74,8 +73,7 @@ class ImageConverter:
 
             contrast = ImageEnhance.Contrast(cropped_img)
             cropped_img = contrast.enhance(1.5)
-            
+
             print("Saving image...")
             # Save the final image
             cropped_img.save(os.path.join(self.output_dir, file_name))
-

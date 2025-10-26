@@ -16,9 +16,6 @@ updates:
       include: "scope"
     reviewers:
       - "x3dfxjunkie"
-    labels:
-      - "dependencies"
-      - "python"
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
@@ -38,7 +35,3 @@ updates:
       include: "scope"
     reviewers:
       - "x3dfxjunkie"
-    labels:
-      - "dependencies"
-      - "github-actions"
-      - "ci-cd"

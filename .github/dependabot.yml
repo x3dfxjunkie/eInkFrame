@@ -26,28 +26,6 @@ updates:
       # Add any packages you want to ignore here
       # Example: - dependency-name: "package-name"
 
-  # Python dependencies - Development requirements
-  - package-ecosystem: pip
-    directory: "/"
-    schedule:
-      interval: weekly
-      day: monday
-      time: "03:00"
-    pull-request-branch-name:
-      separator: "/"
-    commit-message:
-      prefix: "chore(deps-dev)"
-      include: "scope"
-    reviewers:
-      - "x3dfxjunkie"
-    labels:
-      - "dependencies"
-      - "python"
-      - "development"
-    allow:
-      - dependency-type: "direct"
-      - dependency-type: "indirect"
-
   # GitHub Actions
   - package-ecosystem: github-actions
     directory: "/"

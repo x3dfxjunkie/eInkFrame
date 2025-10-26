@@ -22,9 +22,6 @@ updates:
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
-    ignore:
-      # Add any packages you want to ignore here
-      # Example: - dependency-name: "package-name"
 
   # GitHub Actions
   - package-ecosystem: github-actions

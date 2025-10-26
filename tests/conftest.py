@@ -1,10 +1,7 @@
 """Pytest configuration and shared fixtures for sd_monitor tests."""
 
-import os
-import subprocess
-from pathlib import Path
 from typing import Generator
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -259,8 +256,6 @@ def capture_subprocess_calls() -> Generator:
             call_type, args, kwargs = capture_subprocess_calls[0]
     """
     calls = []
-    original_popen = subprocess.Popen
-    original_run = subprocess.run
 
     def capture_popen(*args, **kwargs):
         calls.append(("Popen", args, kwargs))

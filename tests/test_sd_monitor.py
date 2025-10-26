@@ -55,12 +55,10 @@ import os
 import signal
 import subprocess
 from pathlib import Path
-from unittest.mock import MagicMock, Mock, call, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
-
 import sd_monitor
-
 
 # ============================================================================
 # get_refresh_time() Tests
@@ -159,15 +157,18 @@ class TestGetRefreshTime:
                 captured = capsys.readouterr()
                 assert "Error reading" in captured.out
 
-    @pytest.mark.parametrize("value,expected", [
-        ("1", 1),
-        ("30", 30),
-        ("60", 60),
-        ("300", 300),
-        ("600", 600),
-        ("3600", 3600),
-        ("86400", 86400),  # 24 hours
-    ])
+    @pytest.mark.parametrize(
+        "value,expected",
+        [
+            ("1", 1),
+            ("30", 30),
+            ("60", 60),
+            ("300", 300),
+            ("600", 600),
+            ("3600", 3600),
+            ("86400", 86400),  # 24 hours
+        ],
+    )
     def test_get_refresh_time_various_valid_values(self, temp_sd_path, value, expected):
         """Parametrized test for various valid refresh time values."""
         refresh_file = Path(temp_sd_path) / "refresh_time.txt"
@@ -177,15 +178,18 @@ class TestGetRefreshTime:
 
         assert refresh == expected
 
-    @pytest.mark.parametrize("invalid_value", [
-        "abc",
-        "12.5",
-        "12a",
-        "a12",
-        "  ",
-        "-100",
-        "1.5e10",
-    ])
+    @pytest.mark.parametrize(
+        "invalid_value",
+        [
+            "abc",
+            "12.5",
+            "12a",
+            "a12",
+            "  ",
+            "-100",
+            "1.5e10",
+        ],
+    )
     def test_get_refresh_time_various_invalid_values(self, temp_sd_path, invalid_value, capsys):
         """Parametrized test for various invalid refresh time values."""
         refresh_file = Path(temp_sd_path) / "refresh_time.txt"
@@ -206,9 +210,7 @@ class TestGetRefreshTime:
 class TestStartFrameManager:
     """Tests for start_frame_manager() function."""
 
-    def test_start_frame_manager_creates_process(
-        self, temp_sd_path, mock_subprocess_popen, reset_global_state, capsys
-    ):
+    def test_start_frame_manager_creates_process(self, temp_sd_path, mock_subprocess_popen, reset_global_state, capsys):
         """Verify subprocess.Popen is called correctly with proper arguments."""
         mock_popen, mock_process = mock_subprocess_popen
 
@@ -281,9 +283,7 @@ class TestStartFrameManager:
         assert call_args[1]["stdout"] is sd_monitor.sys.stdout
         assert call_args[1]["stderr"] is sd_monitor.sys.stderr
 
-    def test_start_frame_manager_updates_global_process(
-        self, temp_sd_path, mock_subprocess_popen, reset_global_state
-    ):
+    def test_start_frame_manager_updates_global_process(self, temp_sd_path, mock_subprocess_popen, reset_global_state):
         """Verify global process variable is updated with new subprocess."""
         mock_popen, mock_process = mock_subprocess_popen
 
@@ -307,15 +307,18 @@ class TestStartFrameManager:
             with pytest.raises(OSError):
                 sd_monitor.start_frame_manager(temp_sd_path)
 
-    @pytest.mark.parametrize("refresh_time", [
-        1,
-        30,
-        60,
-        300,
-        600,
-        3600,
-        86400,
-    ])
+    @pytest.mark.parametrize(
+        "refresh_time",
+        [
+            1,
+            30,
+            60,
+            300,
+            600,
+            3600,
+            86400,
+        ],
+    )
     def test_start_frame_manager_various_refresh_times(
         self, temp_sd_path, mock_subprocess_popen, reset_global_state, refresh_time
     ):
@@ -483,13 +486,16 @@ class TestMonitorSdCard:
             call_args = mock_start.call_args
             assert "disk1" in call_args[0][0]
 
-    @pytest.mark.parametrize("disk_name", [
-        "usb_disk",
-        "media_drive",
-        "sd_card_mount",
-        "external-drive",
-        "mmc0p1",
-    ])
+    @pytest.mark.parametrize(
+        "disk_name",
+        [
+            "usb_disk",
+            "media_drive",
+            "sd_card_mount",
+            "external-drive",
+            "mmc0p1",
+        ],
+    )
     def test_monitor_sd_card_various_mount_names(
         self, mock_sd_mount_base, mock_os_listdir, mock_os_path_isdir, mock_time_sleep, reset_global_state, disk_name
     ):
@@ -630,7 +636,14 @@ class TestCleanupStaleMounts:
 
     @pytest.mark.parametrize("exit_code", [1, 2, 127])
     def test_cleanup_stale_mounts_handles_various_error_codes(
-        self, mock_sd_mount_base, mock_os_listdir, mock_os_path_isdir, mock_os_access, mock_subprocess_run, exit_code, capsys
+        self,
+        mock_sd_mount_base,
+        mock_os_listdir,
+        mock_os_path_isdir,
+        mock_os_access,
+        mock_subprocess_run,
+        exit_code,
+        capsys,
     ):
         """Parametrized test for various subprocess error codes."""
         mock_os_listdir.return_value = ["stale_mount"]
@@ -690,9 +703,7 @@ class TestMain:
 
         assert call_order == ["cleanup", "monitor"]
 
-    def test_main_monitor_still_called_if_cleanup_raises(
-        self, mock_cleanup_stale_mounts, mock_monitor_sd_card, capsys
-    ):
+    def test_main_monitor_still_called_if_cleanup_raises(self, mock_cleanup_stale_mounts, mock_monitor_sd_card, capsys):
         """Verify monitor continues if cleanup raises exception."""
         mock_cleanup_stale_mounts.side_effect = Exception("Cleanup failed")
         mock_monitor_sd_card.side_effect = KeyboardInterrupt()
@@ -837,7 +848,7 @@ class TestGlobalStateAndConstants:
     def test_sd_mount_base_uses_username(self, monkeypatch):
         """Verify SD_MOUNT_BASE is constructed using USERNAME."""
         monkeypatch.setattr("sd_monitor.USERNAME", "testuser")
-        expected = f"/media/testuser"
+        expected = "/media/testuser"
 
         assert expected == "/media/testuser"
 

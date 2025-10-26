@@ -38,16 +38,15 @@ jobs:
         with:
           fetch-depth: 0  # Full history for better diffs
 
-      - name: Setup UV
-        id: setup-uv
-        uses: astral-sh/setup-uv@v7
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          activate-environment: "true"
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
-          source ${{ steps.setup-uv.outputs.venv }}/bin/activate
+          python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
 
       - name: Run pytest with coverage

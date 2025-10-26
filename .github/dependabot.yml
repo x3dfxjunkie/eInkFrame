@@ -14,8 +14,6 @@ updates:
       prefix: "chore(deps)"
       prefix-development: "chore(deps-dev)"
       include: "scope"
-    reviewers:
-      - "x3dfxjunkie"
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
@@ -33,5 +31,3 @@ updates:
     commit-message:
       prefix: "chore(ci)"
       include: "scope"
-    reviewers:
-      - "x3dfxjunkie"

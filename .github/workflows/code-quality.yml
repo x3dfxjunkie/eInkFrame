@@ -5,12 +5,14 @@ on:
     paths:
       - '**.py'
       - '.github/workflows/code-quality.yml'
+      - '!lib/**'
   push:
     branches:
       - main
       - develop
     paths:
       - '**.py'
+      - '!lib/**'
 
 jobs:
   lint:
@@ -34,17 +36,17 @@ jobs:
 
       - name: Run Ruff linter
         run: |
-          ruff check . --config pyproject.toml
+          ruff check . --config pyproject.toml --exclude lib
         continue-on-error: true
 
       - name: Run Ruff formatter check
         run: |
-          ruff format . --check --config pyproject.toml
+          ruff format . --check --config pyproject.toml --exclude lib
         continue-on-error: true
 
       - name: Check import sorting with isort
         run: |
-          isort . --check-only --diff
+          isort . --check-only --diff --skip-gitignore --ignore-whitespace --dont-follow-links --exclude lib
         continue-on-error: true
 
       - name: Comment on PR with lint issues (if any)

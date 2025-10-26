@@ -7,6 +7,7 @@ on:
       - 'requirements*.txt'
       - 'pyproject.toml'
       - '.github/workflows/pytest-coverage.yml'
+      - '!lib/**'
   push:
     branches:
       - main
@@ -15,6 +16,7 @@ on:
       - '**.py'
       - 'requirements*.txt'
       - 'pyproject.toml'
+      - '!lib/**'
 
 jobs:
   test:
@@ -50,6 +52,7 @@ jobs:
             --cov-report=term-missing \
             --cov-report=xml \
             --cov-report=html \
+            --ignore=lib \
             -v
 
       - name: Check coverage threshold

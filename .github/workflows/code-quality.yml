@@ -1,0 +1,67 @@
+name: Code Quality Checks
+
+on:
+  pull_request:
+    paths:
+      - '**.py'
+      - '.github/workflows/code-quality.yml'
+      - '!lib/**'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - '**.py'
+      - '!lib/**'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup UV
+        id: setup-uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: '3.13'
+          activate-environment: "true"
+
+      - name: Install linting tools
+        run: |
+          source ${{ steps.setup-uv.outputs.venv }}/bin/activate
+          uv pip install -r requirements-dev.txt
+
+      - name: Run Ruff linter
+        run: |
+          ruff check . --config pyproject.toml --exclude lib
+        continue-on-error: true
+
+      - name: Run Ruff formatter check
+        run: |
+          ruff format . --check --config pyproject.toml --exclude lib
+        continue-on-error: true
+
+      - name: Check import sorting with isort
+        run: |
+          isort . --check-only --diff --skip-gitignore --ignore-whitespace --dont-follow-links --skip-glob "**/lib/*"
+        continue-on-error: true
+
+      - name: Comment on PR with lint issues (if any)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ **Code Quality Issues Detected**\n\nPlease run the following to fix formatting:\n```bash\nruff check . --fix\nruff format .\nisort .\n```'
+            });

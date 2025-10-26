@@ -27,9 +27,10 @@ pytest tests/ --cov=. --cov-report=term-missing
 ### On Pull Request:
 
 ```
-✓ Python 3.9 - Run tests and check coverage
 ✓ Python 3.11 - Run tests and check coverage
+✓ Python 3.12 - Run tests and check coverage
 ✓ Python 3.13 - Run tests and check coverage
+✓ Python 3.14 - Run tests and check coverage
 ✓ Code Linting - Check code quality
 ✓ Code Formatting - Check formatting compliance
 ✓ PR Comment - Post coverage results
@@ -194,9 +195,10 @@ Not needed for basic usage. These are set automatically in CI:
 ## Python Versions
 
 ### Currently tested:
-- ✅ Python 3.9
 - ✅ Python 3.11
+- ✅ Python 3.12
 - ✅ Python 3.13 (recommended)
+- ✅ Python 3.14
 
 ### Add/remove versions:
 
@@ -204,7 +206,7 @@ Edit `.github/workflows/pytest-coverage.yml`:
 ```yaml
 strategy:
   matrix:
-    python-version: ['3.11', '3.13']  # Just 3.11 and 3.13
+    python-version: ['3.11', '3.12', '3.13', '3.14']
 ```
 
 ## Coverage Targets
@@ -278,5 +280,5 @@ A: ~10 seconds total (3 Python versions × ~3 seconds each)
 
 ---
 
-**Last Updated:** 2024-10-26
+**Last Updated:** 2025-10-26
 **For full documentation:** See `.github/GITHUB_ACTIONS_SETUP.md`

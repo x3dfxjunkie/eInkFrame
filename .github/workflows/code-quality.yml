@@ -18,6 +18,21 @@ defaults:
   run:
     shell: bash
 
+permissions:
+  actions: none
+  checks: write
+  contents: read
+  deployments: none
+  id-token: none
+  issues: none
+  discussions: none
+  packages: none
+  pages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: write
+  statuses: write
+
 jobs:
   lint:
     runs-on: ubuntu-latest
